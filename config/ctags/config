@@ -1,0 +1,6 @@
+--recurse=yes
+--tag-relative=yes
+--exclude=.gitignore
+--exclude=tags
+--exclude=node_modules
+--exclude=vendor

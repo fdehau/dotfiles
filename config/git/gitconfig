@@ -1,0 +1,39 @@
+[core]
+    pager=less -x4
+    excludesfile = ~/.gitignore
+
+[user]
+    email = {{ git.email }}
+    name = {{ git.name }}
+
+[commit]
+    template = ~/.gitmessage
+
+[push]
+    default = current
+
+[pull]
+    default = current
+
+[merge]
+    tool = vimdiff
+
+[mergetool]
+    prompt = false
+
+[mergetool "vimdiff"]
+    cmd = nvim -d $BASE $LOCAL -c '$wincmd w' -c 'wincmd J'
+
+[alias]
+    st = status -s
+    cl = clone
+    ci = commit
+    co = checkout
+    subupi = submodule update --init
+    subupr = submodule update --recursive
+    subupri = submodule update --recursive --init
+    br = branch
+    r = reset
+    ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    na-clean-mr = "!git for-each-ref refs/heads/fdehau* --format '%(refname)' | while read ref; do branch=${ref#refs/heads/}; git br -d $branch; done"

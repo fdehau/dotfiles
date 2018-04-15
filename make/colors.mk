@@ -1,0 +1,27 @@
+# ANSI colors
+ANSI_BLACK         = \033[0;30m
+ANSI_RED           = \033[0;31m
+ANSI_GREEN         = \033[0;32m
+ANSI_YELLOW        = \033[0;33m
+ANSI_BLUE          = \033[0;34m
+ANSI_MAGENTA       = \033[0;35m
+ANSI_CYAN          = \033[0;36m
+ANSI_GRAY          = \033[1;37m
+ANSI_DARK_GRAY     = \033[1;30m
+ANSI_LIGHT_RED     = \033[1;31m
+ANSI_LIGHT_GREEN   = \033[1;32m
+ANSI_LIGHT_YELLOW  = \033[1;33m
+ANSI_LIGHT_BLUE    = \033[1;34m
+ANSI_LIGHT_MAGENTA = \033[1;35m
+ANSI_LIGHT_CYAN    = \033[1;36m
+ANSI_WHITE         = \033[1;37m
+
+# ANSI effects
+ANSI_RESET       = \033[0m
+ANSI_BOLD        = \033[1m
+ANSI_DIM         = \033[2m
+ANSI_ITALIC      = \033[3m
+ANSI_UNDERLINE   = \033[4m
+ANSI_SLOW_BLINK  = \033[5m
+ANSI_RAPID_BLINK = \033[6m
+ANSI_INVERT      = \033[7m

@@ -1,0 +1,14 @@
+# author: Florian Dehau <me@fdehau.com>
+
+
+# Tell Readline to perform filename completion in a case-insensitive fashion
+set completion-ignore-case on
+
+# Get Readline to display all possible matches for an ambiguous pattern at
+# the first <Tab> instead of at the second
+set show-all-if-ambiguous on
+
+# Press up key to search history backward
+"\e[A": history-search-backward
+# Press down key to search history forward
+"\e[B": history-search-forward

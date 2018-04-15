@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+
+"""
+A module to generate and parse timestamps
+"""
+
+import argparse
+import datetime
+import time
+import dateparser
+
+
+def now(_args):
+    """ Returns a timestamp correspoding to the current time """
+    ts = time.time()
+    print(int(ts))
+
+
+def date(args):
+    """ Returns the date associated with the given timestamp """
+    d = datetime.datetime.fromtimestamp(args.ts)
+    print(d.strftime("%Y-%m-%d %H:%M:%S"))
+
+
+def new(args):
+    """ Create a new timestamp from a description """
+    d = dateparser.parse(args.string)
+    ts = time.mktime(d.timetuple())
+    print(int(ts))
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers()
+
+    now_cmd = subparsers.add_parser('now')
+    now_cmd.set_defaults(func=now)
+
+    new_cmd = subparsers.add_parser('new')
+    new_cmd.add_argument('string', type=str)
+    new_cmd.set_defaults(func=new)
+
+    date_cmd = subparsers.add_parser('date')
+    date_cmd.add_argument('ts', type=int)
+    date_cmd.set_defaults(func=date)
+
+    args = parser.parse_args()
+    args.func(args)
+
+if __name__ == '__main__':
+    main()

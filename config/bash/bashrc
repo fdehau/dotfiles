@@ -1,0 +1,86 @@
+# author: Florian Dehau <me@fdehau.com>
+
+if [ -d ~/dotfiles/bin ]; then
+  export PATH="$PATH:~/dotfiles/bin"
+fi
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# == Keys ==
+
+set -o vi
+
+# == Tab completion ==
+
+# Get bash to cycle through possible completions
+[[ $- = *i* ]] && bind TAB:menu-complete
+
+# == History ==
+
+# Append to the history file, don't overwrite it
+shopt -s histappend
+
+# Save multiple-line commands as one command
+shopt -s cmdhist
+
+# Huge history
+HISTSIZE=100000
+HISTFILESIZE=10000
+
+# Avoid duplicate entries
+HISTCONTROL="erasedups:ignoreboth"
+
+# Don't record some commands
+export HISTIGNORE="&:[]*:exit:ls:bg:fg:history"
+
+# Useful timestamp format
+HISTTIMEFORMAT='%F %T '
+
+# == Directory navigation ==
+
+# Colored output
+if [ -x /usr/bin/colors ]; then
+  eval "`dircolors -b`"
+fi
+
+# Prepend cd when only the directory name is typed
+shopt -s autocd
+
+# == Additional config files ==
+
+# Load prompt
+PROMPT_COMMAND='LAST_STATUS=$?; history -a'
+source ~/.bash/prompt.sh
+
+# Load custom functions
+source ~/.bash/fns.sh
+
+# Load colors
+if [ -f $HOME/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh ]; then
+  source $HOME/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh
+elif [ -f $HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh ]; then
+  source $HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh
+fi
+
+# Load z
+if [ -f $HOME/.bash/z.sh ]; then
+  source $HOME/.bash/z.sh
+fi
+
+# Enable bash completion in interactive shells
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# Load aliases
+source ~/.bash/aliases.sh
+
+# Fzf
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+muted="$(pamixer --get-mute)"
+volume="$(pamixer --get-volume)"
+if [ "$muted" == "true" ]; then
+  echo "  $volume%"
+else
+  echo " $volume%"
+fi

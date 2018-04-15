@@ -1,0 +1,23 @@
+! Font
+rofi.font: {{ rofi.font.family }} {{ rofi.font.size }}
+
+! Colors
+rofi.color-enabled: true
+
+! Background Border Separator
+rofi.color-window: {{ colors.black }}, {{ colors.cyan }}, {{ colors.cyan }}
+
+! Background Foreground AlternativeBackground HightlightBackground HightlightForeground
+rofi.color-normal: {{ colors.black }}, {{ colors.white }}, {{ colors.black }}, {{ colors.black }}, {{ colors.cyan }}
+rofi.color-active: {{ colors.black }}, {{ colors.white }}, {{ colors.black }}, {{ colors.black }}, {{ colors.yellow }}
+rofi.color-urgent: {{ colors.black }}, {{ colors.white }}, {{ colors.black }}, {{ colors.black }}, {{ colors.red }}
+
+! Dimensions
+rofi.width: 30
+rofi.lines: 15
+
+! Appearance
+rofi.padding: 10
+rofi.opacity: 50
+rofi.bw: 3
+rofi.hide-scrollbar: true

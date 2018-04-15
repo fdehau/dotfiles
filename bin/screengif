@@ -1,0 +1,42 @@
+#!/bin/sh
+
+function usage {
+  echo "screengif [scale]"
+}
+
+if [[ $# -ne 1 ]]; then
+  usage
+  exit 1
+fi
+
+SCALE=$1
+
+OUTPUT_VIDEO="out.mp4"
+OUTPUT_PALETTE="out.png"
+OUTPUT_GIF="out.gif"
+
+[[ -f $OUTPUT_VIDEO ]] && rm "$OUTPUT_VIDEO"
+[[ -f $OUTPUT_PALETTE ]] && rm "$OUTPUT_PALETTE"
+[[ -f $OUTPUT_GIF ]] && rm "$OUTPUT_GIF"
+
+# Record
+ffcast \
+  -w % ffmpeg \
+  -f x11grab \
+  -show_region 1 \
+  -framerate 20 \
+  -video_size %s \
+  -i %D+%c \
+  $OUTPUT_VIDEO
+# Extract palette
+ffmpeg \
+  -y \
+  -i $OUTPUT_VIDEO \
+  -vf fps=5,scale=$SCALE:-1:flags=lanczos,palettegen \
+  $OUTPUT_PALETTE
+# Generate gif
+ffmpeg \
+  -i $OUTPUT_VIDEO \
+  -i $OUTPUT_PALETTE \
+  -filter_complex "fps=5,scale=$SCALE:-1:flags=lanczos[x];[x][1:v]paletteuse" \
+  $OUTPUT_GIF

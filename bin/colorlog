@@ -1,0 +1,94 @@
+#!/bin/bash
+
+set -eu -o pipefail
+
+DARK_GREY="\e[0;30m"
+RED="\e[0;31m"
+GREEN="\e[0;32m"
+YELLOW="\e[0;33m"
+BLUE="\e[0;34m"
+MAGENTA="\e[0;35m"
+CYAN="\e[0;36m"
+LIGHT_GRAY="\e[0;37m"
+
+BOLD_DARK_GREY="\e[1;30m"
+BOLD_RED="\e[1;31m"
+BOLD_GREEN="\e[1;32m"
+BOLD_YELLOW="\e[1;33m"
+BOLD_BLUE="\e[1;34m"
+BOLD_MAGENTA="\e[1;35m"
+BOLD_CYAN="\e[1;36m"
+BOLD_LIGHT_GRAY="\e[1;37m"
+
+RESET="\e[0m"
+
+color() {
+  local color=$1
+  case "$color" in
+    "dark_grey")
+      echo -e "$DARK_GREY"
+      ;;
+    "red")
+      echo -e "$RED"
+      ;;
+    "green")
+      echo -e "$GREEN"
+      ;;
+    "yellow")
+      echo -e "$YELLOW"
+      ;;
+    "blue")
+      echo -e "$BLUE"
+      ;;
+    "magenta")
+      echo -e "$MAGENTA"
+      ;;
+    "cyan")
+      echo -e "$CYAN"
+      ;;
+    "light_gray")
+      echo -e "$LIGHT_GRAY"
+      ;;
+    "bold_dark_grey")
+      echo -e "$BOLD_DARK_GREY"
+      ;;
+    "bold_red")
+      echo -e "$BOLD_RED"
+      ;;
+    "bold_green")
+      echo -e "$BOLD_GREEN"
+      ;;
+    "bold_yellow")
+      echo -e "$BOLD_YELLOW"
+      ;;
+    "bold_blue")
+      echo -e "$BOLD_BLUE"
+      ;;
+    "bold_magenta")
+      echo -e "$BOLD_MAGENTA"
+      ;;
+    "bold_cyan")
+      echo -e "$BOLD_CYAN"
+      ;;
+    "bold_light_gray")
+      echo -e "$BOLD_LIGHT_GRAY"
+      ;;
+    "red")
+      echo -e "$RED"
+      ;;
+    "reset")
+      echo -e "$RESET"
+      ;;
+    *)
+      echo ""
+  esac
+}
+
+patterns=""
+for arg in $@; do
+  pattern=$(echo $arg | cut -d'=' -f1)
+  color=$(echo $arg | cut -d'=' -f2)
+  patterns+="s/\(^.*$pattern.*$\)/$(color $color)\1$(color 'reset')/;"
+done
+
+sed -e "$patterns" -

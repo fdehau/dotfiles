@@ -140,6 +140,7 @@ Plug 'neomake/neomake'
 " {{{
 " Call :make asynchronously and provide feedback from different tools
 nnoremap <Leader>m :Neomake<CR>
+nnoremap <Leader>M :Neomake!<CR>
 " Open the location window
 nnoremap <Leader>mo :lopen<CR>
 " Close the location window

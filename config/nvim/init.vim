@@ -294,7 +294,7 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 let g:goyo_width = '90%'
 let g:goyo_height = '90%'
 
-nnoremap <Leader>g :Goyo<CR>
+nnoremap <Leader>z :Goyo<CR>
 " }}}
 
 " }}}

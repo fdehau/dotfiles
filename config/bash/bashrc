@@ -26,7 +26,7 @@ shopt -s cmdhist
 
 # Huge history
 HISTSIZE=100000
-HISTFILESIZE=10000
+HISTFILESIZE=100000
 
 # Avoid duplicate entries
 HISTCONTROL="erasedups:ignoreboth"

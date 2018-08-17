@@ -121,7 +121,7 @@ Plug 'junegunn/gv.vim'
 " Prepare commits in a nicer UI
 Plug 'jreybert/vimagit', { 'on': ['Magit', 'MagitOnly'] }
 " {{{
-nnoremap <Leader>ggg :Magit<CR>
+nnoremap <Leader>gg :Magit<CR>
 " }}}
 
 " Display git diff in signs

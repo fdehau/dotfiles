@@ -25,6 +25,10 @@ function fz {
   cd $(z -l $@ | fzf-tmux --tac | awk '{ print $2 }')
 }
 
+function zf {
+  cd $(z -tl $@ | fzf-tmux --tac | awk '{ print $2 }')
+}
+
 function fcd {
   cd $(fd --type d . | fzf-tmux --tac)
 }

@@ -409,14 +409,14 @@ Plug 'rollxx/vim-antlr', { 'for': 'antlr' }
 
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 " {{{
-let g:rustfmt_autosave = 1
+let g:rustfmt_autosave = 0
 let g:rustfmt_fail_silently = 1
+au Filetype rust map <Leader>k :RustFmt<CR>
 " }}}
 
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 " {{{
 let g:racer_cmd = expand($HOME . '/.cargo/bin/racer')
-let g:racer_experimental_completer = 1
 au Filetype rust nmap <Leader>d <Plug>(rust-def)
 " }}}
 

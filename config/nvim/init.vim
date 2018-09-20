@@ -166,7 +166,7 @@ let g:echodoc_enable_at_startup = 1
 " }}}
 
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '3.0' }
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins', 'tag': '4.0' }
   " {{{
   let g:deoplete#enable_at_startup = 1
   " Enable smartcase

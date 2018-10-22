@@ -422,6 +422,11 @@ au Filetype rust nmap <Leader>d <Plug>(rust-def)
 
 " }}}
 
+" JSON {{{
+au FileType json map <Leader>k :!jq .<CR>
+au FileType json map <Leader>K :%!jq .<CR>
+" }}}
+
 Plug 'cespare/vim-toml', { 'for': 'toml' }
 
 Plug 'tfnico/vim-gradle', { 'for': 'gradle' }

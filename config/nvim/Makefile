@@ -15,8 +15,6 @@ NVIM_DIST_OBJECTS += $(NVIM_CONFIG_DIR)/autoload/plug.vim
 update-nvim:
 	@$(call log_note,"Updating neovim python package")
 	@python3 -m pip install --user --upgrade neovim
-	@$(call log_note,"Updating vim-plug")
-	@nvim +PlugUpgrade +qall
-	@$(call log_note,"Updating plugins")
-	@nvim +PlugUpdate +qall
+	@$(call log_note,"Updating vim-plug and plugins")
+	@nvim +PlugUpgrade +PlugUpdate
 	@$(call log_info,"Finished updating neovim")

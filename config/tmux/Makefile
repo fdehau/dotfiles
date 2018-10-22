@@ -14,7 +14,7 @@ $(BIN_DIR)/tmux: config/tmux/tmux
 TMUX_DIST_OBJECTS += $(BIN_DIR)/tmux
 
 TMUX_URL="https://github.com/tmux/tmux"
-TMUX_VERSION="2.7"
+TMUX_VERSION="2.8"
 config/tmux/tmux:
 	@$(call log_note,"Cloning tmux from $(TMUX_URL) to $@...")
 	@git clone $(TMUX_URL) $@

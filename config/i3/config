@@ -131,12 +131,12 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 mode "power" {
-  bindsym l mode "default", exec --no-startup-id ~/dotfiles/bin/exit.sh lock i3
-  bindsym e mode "default", exec --no-startup-id ~/dotfiles/bin/exit.sh logout i3
-  bindsym s mode "default", exec --no-startup-id ~/dotfiles/bin/exit.sh suspend
-  bindsym h mode "default", exec --no-startup-id ~/dotfiles/bin/exit.sh hibernate
-  bindsym r mode "default", exec --no-startup-id ~/dotfiles/bin/exit.sh reboot
-  bindsym q mode "default", exec --no-startup-id ~/dotfiles/bin/exit.sh shutdown
+  bindsym l mode "default", exec --no-startup-id i3lock -f -c 282828
+  bindsym e mode "default", exec --no-startup-id i3-msg exit
+  bindsym s mode "default", exec --no-startup-id systemctl suspend
+  bindsym h mode "default", exec --no-startup-id systemctl hibernate
+  bindsym r mode "default", exec --no-startup-id systemctl reboot
+  bindsym q mode "default", exec --no-startup-id systemctl poweroff
 
   bindsym Return mode "default"
   bindsym Escape mode "default"
@@ -184,7 +184,7 @@ bar {
   }
 }
 
-exec --no-startup-id ./bin/background.sh
+exec --no-startup-id ~/dotfiles/bin/background
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
 exec --no-startup-id redshift-gtk

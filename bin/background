@@ -14,7 +14,7 @@ media_dir="$HOME/dotfiles/media"
 
 i=0
 while [[ $i -lt ${#monitors[@]} ]]; do
-  args="$args --bg-scale $media_dir/bg0.jpg"
+  args="$args --bg-scale $media_dir/bg.jpg"
   (( i = i + 1))
 done
 

@@ -6,8 +6,8 @@ alias magit='nvim +MagitOnly'
 # apt
 alias apti="sudo apt-get install"
 alias aptr="sudo apt-get remove"
-alias apts="apt-cache search"
-alias aptsn="apt-cache search --names-only"
+alias apts="apt search"
+alias aptsn="apt search --names-only"
 alias aptu="sudo apt-get update"
 alias aptuu="sudo apt-get update && sudo apt-get upgrade"
 

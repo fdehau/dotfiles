@@ -1,9 +1,24 @@
 #!/bin/bash
 
-muted="$(pamixer --get-mute)"
-volume="$(pamixer --get-volume)"
-if [ "$muted" == "true" ]; then
-  echo "  $volume%"
-else
-  echo " $volume%"
-fi
+sinks=$(pactl list sinks)
+
+function icon() {
+  local port=$(echo "$sinks" | grep '^[[:space:]]Active Port:' | head -n 1)
+  local mute=$(echo "$sinks" | grep '^[[:space:]]Mute:' | head -n 1)
+  if [[ "$port" =~ "headphones" ]]; then
+    if [[ "$mute" =~ "yes" ]]; then
+      echo ""
+    else
+      echo ""
+    fi
+  else
+    if [[ "$mute" =~ "yes" ]]; then
+      echo ""
+    else
+      echo ""
+    fi
+  fi
+}
+
+volume="$(echo "$sinks" | grep '^[[:space:]]Volume:' | head -n 1 | sed 's/.* \([0-9][0-9]*\)%.*/\1/g')"
+echo "$(icon) $volume%"

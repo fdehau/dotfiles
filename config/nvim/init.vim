@@ -311,14 +311,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " {{{
 
-" Rg based command
-command! -bang -nargs=* Rg
-      \ call fzf#vim#grep(
-      \   'rg --smart-case --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-      \   <bang>0 ? fzf#vim#with_preview('up:60%')
-      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-      \   <bang>0)
-
 " Navigate files
 nnoremap <Leader>f :Files <CR>
 nnoremap <Leader>F :GFiles <CR>

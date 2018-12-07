@@ -326,7 +326,7 @@ nnoremap <Leader>rg :Rg <C-R><C-W><CR>
 
 " Tags
 nnoremap <Leader>t :BTags <CR>
-nnoremap <Leader>tt :Btags <C-R><C-W><CR>
+nnoremap <Leader>tt :BTags <C-R><C-W><CR>
 nnoremap <Leader>T :Tags <CR>
 nnoremap <Leader>TT :Tags <C-R><C-W><CR>
 

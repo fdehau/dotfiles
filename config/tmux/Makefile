@@ -19,3 +19,8 @@ config/tmux/tmux:
 	@$(call log_note,"Cloning tmux from $(TMUX_URL) to $@...")
 	@git clone $(TMUX_URL) $@
 TMUX_DIST_OBJECTS += config/tmux/tmux
+
+~/.config/tmux/fzf-url.sh: config/tmux/fzf-url.sh
+	@$(call copy_file,$<,$@)
+	@chmod +x $@
+TMUX_OBJECTS += ~/.config/tmux/fzf-url.sh

@@ -4,3 +4,5 @@
 --exclude=tags
 --exclude=node_modules
 --exclude=vendor
+--exclude=target
+--languages=C,C++,Rust,PHP,Python,Ruby,JavaScript,Make,Java

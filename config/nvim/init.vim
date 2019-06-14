@@ -167,7 +167,6 @@ let g:echodoc_enable_at_startup = 1
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'deoplete-plugins/deoplete-tag'
   " {{{
   let g:deoplete#enable_at_startup = 1
   " Enable smartcase
@@ -175,6 +174,7 @@ if has('nvim')
   " Reduce the number of shown candidates
   let g:deoplete#max_list = 30
   " }}}
+  Plug 'deoplete-plugins/deoplete-tag'
   Plug 'Shougo/neoinclude.vim'
 elseif has('lua')
   Plug 'Shougo/neocomplete'
@@ -612,10 +612,6 @@ set modeline
 " }}}
 
 " Keys {{{
-
-" Auto indent pasted text
-nnoremap p p=`]<C-o>
-nnoremap P P=`]<C-o>
 
 function! ToggleSyntax()
   if exists("g:syntax_on")

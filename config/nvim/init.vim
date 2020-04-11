@@ -1,12 +1,4 @@
 " vim: fdm=marker
-"   ______   _____     ______     __  __     ______     __  __
-"  /\  ___\ /\  __-.  /\  ___\   /\ \_\ \   /\  __ \   /\ \/\ \
-"  \ \  __\ \ \ \/\ \ \ \  __\   \ \  __ \  \ \  __ \  \ \ \_\ \
-"   \ \_\    \ \____-  \ \_____\  \ \_\ \_\  \ \_\ \_\  \ \_____\
-"    \/_/     \/____/   \/_____/   \/_/\/_/   \/_/\/_/   \/_____/
-"
-" Author: work@fdehau.com
-" File: init.vim (Neovim configuration)
 
 " Configure leader key for extra combination
 let mapleader = "\<Space>"

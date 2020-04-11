@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# author: Florian Dehau <me@fdehau.com>
-
 DARK_GREY="\e[0;30m"
 RED="\e[0;31m"
 GREEN="\e[0;32m"

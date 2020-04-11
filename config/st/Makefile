@@ -3,27 +3,26 @@ ST_DIR = st-$(ST_VERSION)
 ST_ARCHIVE = $(ST_DIR).tar.gz
 ST_URL = https://dl.suckless.org/st/$(ST_ARCHIVE)
 
-config/st/$(ST_DIR)/config.h: config/st/config.h $(BIN_DIR)/tmpl | config/st/$(ST_DIR)
-	@$(call gen_tmpl,$<,$@)
+$(eval $(call TEMPLATE,config/st/config.h,config/st/$(ST_DIR)/config.h))
 ST_OBJECTS += config/st/$(ST_DIR)/config.h
 
-config/st/$(ST_DIR):
-	@$(call log_note,"Downloading st...")
-	@curl -fLo config/st/$(ST_ARCHIVE) $(ST_URL)
+config/st/.download:
+	@$(call download,$(ST_URL),config/st/$(ST_ARCHIVE))
 	@cd config/st && \
 	  tar -xzvf $(ST_ARCHIVE) && \
 	  rm -f $(ST_ARCHIVE)
-ST_DIST_OBJECTS += config/st/$(ST_DIR)
+	@touch $@
+ST_DIST_OBJECTS += config/st/$(ST_DIR) config/st/.download
 
 $(BIN_DIR)/st: MAKEFLAGS =
-$(BIN_DIR)/st: config/st/$(ST_DIR)/config.h
+$(BIN_DIR)/st: config/st/.download config/st/$(ST_DIR)/config.h
 	@$(call log_note,"Building st...")
-	@cd config/st/$(ST_DIR) && $(MAKE)
+	$(MAKE) -C config/st/$(ST_DIR)
 	@cp config/st/$(ST_DIR)/st $@
 ST_DIST_OBJECTS += $(BIN_DIR)/st
 
-config/st/.tic: config/st/$(ST_DIR)/st.info
+config/st/.tic: config/st/.download
 	@$(call log_note,"Compiling terminfo...")
-	@tic -sx $<
+	@tic -sx config/st/$(ST_DIR)/st.info
 	@touch $@
 ST_OBJECTS += config/st/.tic

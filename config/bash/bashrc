@@ -1,7 +1,5 @@
-# author: Florian Dehau <me@fdehau.com>
-
-if [ -d ~/dotfiles/bin ]; then
-  export PATH="$PATH:~/dotfiles/bin"
+if [ -d $HOME/.local/bin ]; then
+  export PATH="$PATH:$HOME/.local/bin"
 fi
 
 # If not running interactively, don't do anything
@@ -51,10 +49,10 @@ shopt -s autocd
 
 # Load prompt
 PROMPT_COMMAND='LAST_STATUS=$?; history -a'
-source ~/.bash/prompt.sh
+source ~/.config/bash/prompt.sh
 
 # Load custom functions
-source ~/.bash/fns.sh
+source ~/.config/bash/fns.sh
 
 # Load colors
 if [ -f $HOME/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh ]; then
@@ -64,8 +62,8 @@ elif [ -f $HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh ]; then
 fi
 
 # Load z
-if [ -f $HOME/.bash/z.sh ]; then
-  source $HOME/.bash/z.sh
+if [ -f $HOME/.config/bash/z.sh ]; then
+  source $HOME/.config/bash/z.sh
 fi
 
 # Enable bash completion in interactive shells
@@ -78,9 +76,25 @@ if ! shopt -oq posix; then
 fi
 
 # Load aliases
-source ~/.bash/aliases.sh
+source ~/.config/bash/aliases.sh
+
+# Load local config
+if [ -f $HOME/.config/bash/{{ name }}.sh ]; then
+  source $HOME/.config/bash/{{ name }}.sh
+fi
 
 # Fzf
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Rust
+
+# Put binaries installed using "cargo install" in path
+export PATH="$PATH:$HOME/.cargo/bin"
+# Locate rust source for rls
+export RUST_SRC_PATH="$HOME/.rustup/toolchains/stable-{{ target }}/lib/rustlib/src/rust/src"
+# Add libs in link path for all channels
+for channel in stable beta nightly; do
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/.rustup/toolchains/$channel-{{ target }}/lib"
+done

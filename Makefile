@@ -1,10 +1,5 @@
 # Check config path and load it
-DOTFILES_CONFIG_PATH = $(HOME)/.config/dotfiles/config.mk
-ifeq ("$(wildcard $(DOTFILES_CONFIG_PATH))","")
-  $(error Missing configuration at $(DOTFILES_CONFIG_PATH))
-else
-  include $(DOTFILES_CONFIG_PATH)
-endif
+DOTFILES_CONFIG_PATH = $(HOME)/.config/dotfiles/config.json
 
 # No built-in rules
 MAKEFLAGS += --no-builtin-rules
@@ -17,9 +12,22 @@ MAKEFLAGS += --no-print-directory
 SHELL = /bin/bash
 HOSTNAME = $(shell hostname)
 ROOT_DIR = $(shell pwd)
-BIN_DIR = $(ROOT_DIR)/bin
+BIN_DIR = ~/.local/bin
 CONFIG_DIR = $(ROOT_DIR)/config
 MAKE_DIR = $(ROOT_DIR)/make
+
+ifeq ($(OS),Windows_NT)
+  TARGET = x86_64-pc-windows-msvc
+else
+  UNAME = $(shell uname -s)
+  ifeq ($(UNAME),Darwin)
+    TARGET = x86_64-apple-darwin
+  else ifeq ($(UNAME),Linux)
+    TARGET = x86_64-unknown-linux-gnu
+  else
+    $(error "Failed to detect os")
+  endif
+endif
 
 include make/colors.mk
 include make/log.mk
@@ -38,17 +46,19 @@ help: ## Print help
 	@echo -e "$(ANSI_RESET)"
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "$(ANSI_BLUE)%-30s$(ANSI_RESET) %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-install: ## Build binaries, copy and generate configuration files
 .PHONY: install
+install: ## Build binaries, copy and generate configuration files
 
-update: ## Update all components (for example update neovim plugins)
 .PHONY: update
+update: ## Update all components (for example update neovim plugins)
 
-clean: ## Remove configuration files but keep downloaded files
 .PHONY: clean
+clean: ## Remove configuration files but keep downloaded files
 
-distclean: ## Remove configuration files and downloaded files
 .PHONY: distclean
+distclean: ## Remove configuration files and downloaded files
+	@rm -f $(BIN_DIR)/tmpl
+	@$(call log_info,"Removed $(BIN_DIR)/tmpl")
 
 # Macro used to define the hooks required to manage a dotfiles' component (ie
 # install, clean, ...)
@@ -60,9 +70,9 @@ $($(1)_NAME)_OBJECTS =
 $($(1)_NAME)_DIST_OBJECTS =
 
 # Define the install rule
+.PHONY: install-$(1)
 install-$(1): $($($(1)_NAME)_OBJECTS) $($($(1)_NAME)_DIST_OBJECTS)
 	@$(call log_info,"Finished installation of $(1)")
-.PHONY: install-$(1)
 
 install: install-$(1)
 
@@ -71,18 +81,18 @@ install: install-$(1)
 update: update-$(1)
 
 # Define the clean rule
+.PHONY: clean-$(1)
 clean-$(1):
 	@for o in $($($(1)_NAME)_OBJECTS); do rm -f $$$$o; $(call log_note,"Removed $$$$o"); done;
 	@$(call log_info,"Finished cleaning of $(1)")
-.PHONY: clean-$(1)
 
 clean: clean-$(1)
 
 # Define the dist clean rule
+.PHONY: distclean-$(1)
 distclean-$(1):
 	@for o in $($($(1)_NAME)_DIST_OBJECTS); do rm -rf $$$$o; $(call log_note,"Removed $$$$o"); done;
 	@$(call log_info,"Finished cleaning of $(1)")
-.PHONY: distclean-$(1)
 
 distclean: distclean-$(1) clean-$(1)
 

@@ -1,11 +1,19 @@
-TMPL_VERSION = 0.1.1
+TMPL_VERSION = 0.2.1
 TMPL_BASE_URL = https://github.com/fdehau/tmpl/releases/download/v$(TMPL_VERSION)
-TMPL_DIR = tmpl-v$(TMPL_VERSION)-x86_64-unknown-linux-gnu
-TMPL_ARCHIVE = $(TMPL_DIR).tar.gz
+TMPL_ARCHIVE = tmpl-$(TARGET).tar.gz
 
 $(BIN_DIR)/tmpl:
-	$(call log_info,"Downloading tmpl $(TMPL_VERSION)...")
-	@curl -fLo $(TMPL_ARCHIVE) $(TMPL_BASE_URL)/$(TMPL_ARCHIVE)
+	@$(call download,$(TMPL_BASE_URL)/$(TMPL_ARCHIVE),$(TMPL_ARCHIVE))
 	@tar xzvf $(TMPL_ARCHIVE)
-	@cp $(TMPL_DIR)/tmpl $@
-	@rm -rvf $(TMPL_DIR) $(TMPL_ARCHIVE)
+	@mv tmpl $@
+	@rm -rvf $(TMPL_ARCHIVE)
+
+settings.json:
+	echo '{"target": "$(TARGET)"}' > $@
+
+define TEMPLATE
+$(2): $(1) $(DOTFILES_CONFIG_PATH) settings.json $(BIN_DIR)/tmpl
+	@mkdir -p $(dir $(2))
+	@$(BIN_DIR)/tmpl $(DOTFILES_CONFIG_PATH) settings.json < $(1) > $(2)
+	@$(call log_info,"Generated $(2) from $(1)")
+endef

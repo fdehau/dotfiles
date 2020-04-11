@@ -1,3 +1,2 @@
-~/.config/i3/config: config/i3/config $(BIN_DIR)/tmpl
-	@$(call gen_tmpl,$<,$@)
+$(eval $(call TEMPLATE,config/i3/config,~/.config/i3/config))
 I3_OBJECTS += ~/.config/i3/config

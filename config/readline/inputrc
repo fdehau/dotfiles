@@ -1,6 +1,3 @@
-# author: Florian Dehau <me@fdehau.com>
-
-
 # Tell Readline to perform filename completion in a case-insensitive fashion
 set completion-ignore-case on
 

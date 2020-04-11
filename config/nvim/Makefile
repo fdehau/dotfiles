@@ -8,8 +8,7 @@ NVIM_OBJECTS += $(NVIM_CONFIG_DIR)/init.vim
 # Plugins are managed using vim-plug by junegunn
 VIM_PLUG_URL = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 $(NVIM_CONFIG_DIR)/autoload/plug.vim:
-	@$(call log_note,"Downloading vim-plug from $(VIM_PLUG_URL) to $(@)...")
-	@curl -fLo $@ --create-dirs $(VIM_PLUG_URL)
+	@$(call download,$(VIM_PLUG_URL),$@)
 NVIM_DIST_OBJECTS += $(NVIM_CONFIG_DIR)/autoload/plug.vim
 
 update-nvim:

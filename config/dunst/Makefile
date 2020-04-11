@@ -1,3 +1,2 @@
-~/.config/dunst/dunstrc: config/dunst/dunstrc $(BIN_DIR)/tmpl
-	@$(call gen_tmpl,$<,$@)
+$(eval $(call TEMPLATE,config/dunst/dunstrc,~/.config/dunst/dunstrc))
 DUNST_OBJECTS += ~/.config/dunst/dunstrc

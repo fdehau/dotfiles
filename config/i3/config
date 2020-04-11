@@ -16,7 +16,7 @@ font pango:{{ i3.font.family }} {{ i3.font.size }}
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec ~/dotfiles/bin/st -e ~/dotfiles/bin/tmux
+bindsym $mod+Return exec ~/.local/bin/st -e tmux
 
 # kill focused window
 bindsym $mod+Shift+a kill
@@ -169,7 +169,7 @@ for_window [window_type="menu"] floating enable
 bar {
   status_command i3blocks
   i3bar_command i3bar
-  font pango:{{ i3bar.font.family }}, {{ i3bar.font.family2 }} {{ i3bar.font.size }}
+  font pango:{{ i3.bar_font.family }}, {{ i3.icon_font.family }} {{ i3.bar_font.size }}
   position top
   tray_padding 0
   colors {
@@ -184,7 +184,7 @@ bar {
   }
 }
 
-exec --no-startup-id ~/dotfiles/bin/background
+exec --no-startup-id ~/.local/bin/background
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
 exec --no-startup-id redshift-gtk

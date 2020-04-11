@@ -1,5 +1,4 @@
-~/.gitconfig: config/git/gitconfig $(BIN_DIR)/tmpl
-	@$(call gen_tmpl,$<,$@)
+$(eval $(call TEMPLATE,config/git/gitconfig,~/.gitconfig))
 GIT_OBJECTS += ~/.gitconfig
 
 ~/.gitmessage: config/git/gitmessage

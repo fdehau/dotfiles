@@ -1,3 +1,2 @@
-~/.config/rofi/config: config/rofi/config $(BIN_DIR)/tmpl
-	@$(call gen_tmpl,$<,$@)
+$(eval $(call TEMPLATE,config/rofi/config,~/.config/rofi/config))
 ROFI_OBJECTS += ~/.config/rofi/config

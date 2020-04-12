@@ -15,8 +15,9 @@ open.
 - [i3](https://i3wm.org/): The classic tiling window manager. Used in
 combination with [i3lock](https://github.com/i3/i3lock) and
 [i3blocks](https://github.com/vivien/i3blocks).
-- [st](https://st.suckless.org/)
-- bash
+- [st](https://st.suckless.org/): terminal compiled locally to apply
+a custom colorscheme (gruvbox).
+- bash with a custom prompt.
 - [neovim](https://github.com/neovim/neovim): Not a Vim expert but I've grown
 to love its versatility and capabilities. I'm a long term user of the fork and
 its ecosystem.
@@ -31,12 +32,10 @@ installed using `make install`. Other commands can be found by running `make
 help`.
 
 Configuration for each component is located under the `config` directory.
-Beware though, some are templates and the resulting configuration files need to
-be generated using [tmpl](https://github.com/fdehau/tmpl).
-
-Moreover, the resulting files can be configured using a single configuration
-file localted in `~/.config/dotfiles/config.json`. The variables that need to
-be defined are:
+Beware though, some files are templates and the resulting configuration files
+need to be generated using [tmpl](https://github.com/fdehau/tmpl). The
+variables used in those templates are defined in
+`~/.config/dotfiles/config.json`. The variables that need to be defined are:
 
 ```json
 {

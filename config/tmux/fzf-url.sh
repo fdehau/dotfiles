@@ -3,7 +3,7 @@
 # Based on https://github.com/wfxr/tmux-fzf-url with few tweaks
 
 fzf_cmd() {
-    fzf-tmux -d 35% --multi --exit-0 --bind='ctrl-r:toggle-all' --bind='ctrl-s:toggle-sort'
+    fzf-tmux -d 35% --multi --exit-0 --no-preview
 }
 
 parse_urls() {
@@ -43,9 +43,5 @@ if  hash xdg-open &>/dev/null; then
 elif hash open &>/dev/null; then
     open_cmd='open'
 fi
-merge "${urls[@]}" "${wwws[@]}" "${ips[@]}"|
-    sort -u |
-    fzf_cmd |
-    xargs -n1 -I {} $open_cmd {} &>/dev/null ||
-    true
 
+merge "${urls[@]}" "${wwws[@]}" "${ips[@]}" | sort -u | fzf_cmd | xargs -n1 -I {} $open_cmd {} &> /dev/null || true

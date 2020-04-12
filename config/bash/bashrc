@@ -45,6 +45,14 @@ fi
 # Prepend cd when only the directory name is typed
 shopt -s autocd
 
+# == Editor ==
+
+if [ -x "$(command -v nvim)" ]; then
+  export EDITOR=nvim
+elif [ -x "$(command -v vim)" ]; then
+  export EDITOR=vim
+fi
+
 # == Additional config files ==
 
 # Load prompt

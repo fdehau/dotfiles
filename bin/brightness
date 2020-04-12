@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [[ $# -ne 1 ]]; then
+  echo "$0 <value>"
+  exit 1
+fi
+
+MAX_BRIGTHNESS=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+if [[ $1 -gt $MAX_BRIGTHNESS ]]; then
+  echo "Brightness cannot be greater than $MAX_BRIGTHNESS"
+  exit 1
+elif [[ $1 -lt 0 ]]; then
+  echo "Brightness cannot be negative"
+  exit 1
+fi
+
+echo $1 | sudo tee /sys/class/backlight/intel_backlight/brightness

@@ -102,4 +102,6 @@ endef
 $(foreach component_dir,$(COMPONENTS_DIRS),$(eval include $(component_dir)/Makefile))
 $(foreach component,$(COMPONENTS),$(eval $(call COMPONENT,$(component))))
 
+include bin/Makefile
+
 .DEFAULT_GOAL := help

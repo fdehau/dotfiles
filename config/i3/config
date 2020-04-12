@@ -131,7 +131,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 mode "power" {
-  bindsym l mode "default", exec --no-startup-id i3lock -f -c 282828
+  bindsym l mode "default", exec --no-startup-id i3lock -f -c {{ colors.yellow | replace(from="#", to="") }}
   bindsym e mode "default", exec --no-startup-id i3-msg exit
   bindsym s mode "default", exec --no-startup-id systemctl suspend
   bindsym h mode "default", exec --no-startup-id systemctl hibernate

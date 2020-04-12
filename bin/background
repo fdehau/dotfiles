@@ -10,7 +10,7 @@ fi
 # Args to pass to feh
 args=""
 # Directory to look for the images
-media_dir="$HOME/dotfiles/media"
+media_dir="$DOTFILES_PATH/media"
 
 i=0
 while [[ $i -lt ${#monitors[@]} ]]; do

@@ -2,6 +2,8 @@ if [ -d $HOME/.local/bin ]; then
   export PATH="$PATH:$HOME/.local/bin"
 fi
 
+export DOTFILES_PATH={{ dotfiles_path }}
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 

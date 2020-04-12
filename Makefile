@@ -54,11 +54,13 @@ update: ## Update all components (for example update neovim plugins)
 
 .PHONY: clean
 clean: ## Remove configuration files but keep downloaded files
+	@rm -f settings.json
+	@$(call log_note,"Removed settings.json")
 
 .PHONY: distclean
 distclean: ## Remove configuration files and downloaded files
 	@rm -f $(BIN_DIR)/tmpl
-	@$(call log_info,"Removed $(BIN_DIR)/tmpl")
+	@$(call log_note,"Removed $(BIN_DIR)/tmpl")
 
 # Macro used to define the hooks required to manage a dotfiles' component (ie
 # install, clean, ...)

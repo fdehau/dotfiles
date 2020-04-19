@@ -1,26 +1,24 @@
-#!/bin/bash
+DARK_GREY="\033[0;30m"
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+YELLOW="\033[0;33m"
+BLUE="\033[0;34m"
+MAGENTA="\033[0;35m"
+CYAN="\033[0;36m"
+LIGHT_GRAY="\033[0;37m"
 
-DARK_GREY="\e[0;30m"
-RED="\e[0;31m"
-GREEN="\e[0;32m"
-YELLOW="\e[0;33m"
-BLUE="\e[0;34m"
-MAGENTA="\e[0;35m"
-CYAN="\e[0;36m"
-LIGHT_GRAY="\e[0;37m"
-
-BOLD_DARK_GREY="\e[1;30m"
-BOLD_RED="\e[1;31m"
-BOLD_GREEN="\e[1;32m"
-BOLD_YELLOW="\e[1;33m"
-BOLD_BLUE="\e[1;34m"
-BOLD_MAGENTA="\e[1;35m"
-BOLD_CYAN="\e[1;36m"
-BOLD_LIGHT_GRAY="\e[1;37m"
+BOLD_DARK_GREY="\033[1;30m"
+BOLD_RED="\033[1;31m"
+BOLD_GREEN="\033[1;32m"
+BOLD_YELLOW="\033[1;33m"
+BOLD_BLUE="\033[1;34m"
+BOLD_MAGENTA="\033[1;35m"
+BOLD_CYAN="\033[1;36m"
+BOLD_LIGHT_GRAY="\033[1;37m"
 
 SHORT_COMMAND_THRESHOLD=5
 
-RESET="\e[0m"
+RESET="\033[0m"
 
 # reset the timer, called just after command invokation
 function timer_start {

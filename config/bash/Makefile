@@ -8,6 +8,8 @@ BASH_OBJECTS += ~/.bash_profile
 BASH_CONFIG_FILES = \
   config/bash/fns.sh \
   config/bash/aliases.sh \
+  config/bash/aliases.linux.sh \
+  config/bash/aliases.darwin.sh \
   config/bash/prompt.sh
 BASH_OBJECTS += $(patsubst config/bash/%,~/.config/bash/%,$(BASH_CONFIG_FILES))
 ~/.config/bash/%: config/bash/%

@@ -9,7 +9,7 @@ $(BIN_DIR)/tmpl:
 	@rm -rvf $(TMPL_ARCHIVE)
 
 settings.json:
-	echo '{"target": "$(TARGET)", "dotfiles_path": "$(ROOT_DIR)"}' > $@
+	echo '{"platform": "$(PLATFORM)", "target": "$(TARGET)", "dotfiles_path": "$(ROOT_DIR)"}' > $@
 
 define TEMPLATE
 $(2): $(1) $(DOTFILES_CONFIG_PATH) settings.json $(BIN_DIR)/tmpl

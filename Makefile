@@ -17,12 +17,15 @@ CONFIG_DIR = $(ROOT_DIR)/config
 MAKE_DIR = $(ROOT_DIR)/make
 
 ifeq ($(OS),Windows_NT)
+  PLATFORM = windows
   TARGET = x86_64-pc-windows-msvc
 else
   UNAME = $(shell uname -s)
   ifeq ($(UNAME),Darwin)
+    PLATFORM = darwin
     TARGET = x86_64-apple-darwin
   else ifeq ($(UNAME),Linux)
+    PLATFORM = linux
     TARGET = x86_64-unknown-linux-gnu
   else
     $(error "Failed to detect os")

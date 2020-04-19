@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Send alert
 # Usage: sleep 5; alert
 function alert {

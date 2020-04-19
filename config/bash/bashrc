@@ -1,3 +1,4 @@
+export PATH="$PATH:/usr/local/bin"
 if [ -d $HOME/.local/bin ]; then
   export PATH="$PATH:$HOME/.local/bin"
 fi
@@ -87,6 +88,9 @@ fi
 
 # Load aliases
 source ~/.config/bash/aliases.sh
+if [ -f $HOME/.config/bash/aliases.{{ platform }}.sh ]; then
+  source $HOME/.config/bash/aliases.{{ platform }}.sh
+fi
 
 # Load local config
 if [ -f $HOME/.config/bash/{{ name }}.sh ]; then

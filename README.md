@@ -77,6 +77,10 @@ variables used in those templates are defined in
       "size": 30
     }
   },
+  "tmux": {
+    "terminal": "st-256color",
+    "shell": "/bin/bash",
+  },
   "colors": {
     "black": "#282828",
     "red": "#CC241D",

@@ -157,31 +157,12 @@ set completeopt-=preview
 let g:echodoc_enable_at_startup = 1
 " }}}
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  " {{{
-  let g:deoplete#enable_at_startup = 1
-  " Enable smartcase
-  let g:deoplete#enable_smart_case = 1
-  " Reduce the number of shown candidates
-  let g:deoplete#max_list = 30
-  " }}}
-  Plug 'deoplete-plugins/deoplete-tag'
-  Plug 'Shougo/neoinclude.vim'
-elseif has('lua')
-  Plug 'Shougo/neocomplete'
-  " {{{
-  let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#enable_smart_case = 1
-  " }}}
-  Plug 'Shougo/neoinclude.vim'
-else
-  Plug 'Shougo/neocomplcache'
-  " {{{
-  let g:neocomplcache_enable_at_startup = 1
-  let g:neocomplcache_enable_smart_case = 1
-  " }}}
-endif
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" {{{
+let g:deoplete#enable_at_startup = 1
+Plug 'deoplete-plugins/deoplete-tag'
+Plug 'Shougo/neoinclude.vim'
+" }}}
 
 " Complete using tab
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -469,6 +450,11 @@ Plug 'robbles/logstash.vim'
 " }}}
 
 call plug#end()
+
+call deoplete#custom#option({
+\ "smart_case": v:true,
+\ "max_list": 30,
+\ })
 
 " }}}
 

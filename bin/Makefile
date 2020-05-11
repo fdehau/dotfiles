@@ -3,6 +3,7 @@ BINS += bin/brightness
 BINS += bin/colorlog
 BINS += bin/screengif
 BINS += bin/background
+BINS += bin/ts
 
 ~/.local/bin/%: bin/%
 	@$(call copy_file,$<,$@)

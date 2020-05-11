@@ -408,8 +408,6 @@ Plug 'fatih/vim-go', { 'for': 'go' }
 autocmd Filetype go setlocal shiftwidth=8 tabstop=8 softtabstop=8
 " }}}
 
-Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make' }
-
 " }}}
 
 " Javascript {{{
@@ -452,9 +450,14 @@ Plug 'robbles/logstash.vim'
 call plug#end()
 
 call deoplete#custom#option({
-\ "smart_case": v:true,
-\ "max_list": 30,
+\ 'smart_case': v:true,
+\ 'max_list': 30,
+\ 'omni_patterns': {
+\   'go': '[^. *\t]\.\w*'
+\ },
 \ })
+" because of the omni_patterns
+set completeopt+=noselect
 
 " }}}
 

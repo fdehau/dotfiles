@@ -100,7 +100,12 @@ fi
 # Fzf
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [ -f ~/.fzf/shell/completion.bash ]; then
+  source ~/.fzf/shell/completion.bash
+fi
+if [ -f ~/.fzf/shell/key-bindings.bash ]; then
+  source ~/.fzf/shell/key-bindings.bash
+fi
 
 # Rust
 

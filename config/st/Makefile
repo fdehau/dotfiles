@@ -1,4 +1,4 @@
-ST_VERSION = 0.8.2
+ST_VERSION = 0.8.3
 ST_DIR = st-$(ST_VERSION)
 ST_ARCHIVE = $(ST_DIR).tar.gz
 ST_URL = https://dl.suckless.org/st/$(ST_ARCHIVE)

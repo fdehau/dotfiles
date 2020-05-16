@@ -100,15 +100,11 @@ fi
 # Fzf
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-if [ -f ~/.fzf/shell/completion.bash ]; then
-  source ~/.fzf/shell/completion.bash
-fi
-if [ -f ~/.fzf/shell/key-bindings.bash ]; then
-  source ~/.fzf/shell/key-bindings.bash
+if [ -f ~/.fzf.bash ]; then
+  source ~/.fzf.bash
 fi
 
 # Rust
-
 # Put binaries installed using "cargo install" in path
 export PATH="$PATH:$HOME/.cargo/bin"
 # Locate rust source for rls

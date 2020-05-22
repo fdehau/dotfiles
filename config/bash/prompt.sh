@@ -45,33 +45,33 @@ function timer_stop {
 # timer stop must be the last command
 PROMPT_COMMAND="$PROMPT_COMMAND; timer_stop"
 
-function git_color {
-  local git_status="$(git status 2> /dev/null)"
+function git_status {
+  local status="$(git status 2> /dev/null)"
 
-  if [[ $git_status =~ "Changes not staged for commit:" ]]; then
-    echo -e $BOLD_RED
-  elif [[ $git_status =~ "Changes to be committed:" ]]; then
-    echo -e $BOLD_YELLOW
-  elif [[ $git_status =~ "nothing to commit" ]]; then
-    echo -e $BOLD_GREEN
-  elif [[ $git_status =~ "Untracked files:" ]]; then
-    echo -e $BOLD_CYAN
-  else
-    echo -e $BOLD_LIGHT_GRAY
+  # Compute a state from the status
+  local on_branch="s/^On branch \(.*\)/\1/p"
+  local on_commit="s/^HEAD detached at \(.*\)$/\1/p"
+  local on_behind="s/^Your branch is behind .* by \([0-9]*\) commit.*/ -\1/p"
+  local on_ahead="s/^Your branch is ahead .* by \([0-9]*\) commit.*/ +\1/p"
+  local on_diverged="s/and have \([0-9]*\) and \([0-9]*\) different commits each.*/ +\1 -\2/p"
+  local on_rebase="s/^You are currently rebasing branch '\(.*\)' on '\(.*\)'\./rebase:\1:\2/p"
+  local cmds="$on_branch;$on_commit;$on_diverged;$on_diverged;$on_rebase;$on_ahead;$on_behind;";
+  local state=$(echo -n "$status" | sed -n "$cmds" | tr -d "\n")
+
+  # Choose a color to display the state
+  local color=$BOLD_LIGHT_GRAY
+  if [[ $status =~ "Changes not staged for commit:" ]]; then
+    color=$BOLD_RED
+  elif [[ $status =~ "Changes to be committed:" ]]; then
+    color=$BOLD_YELLOW
+  elif [[ $status =~ "nothing to commit" ]]; then
+    color=$BOLD_GREEN
+  elif [[ $status =~ "Untracked files:" ]]; then
+    color=$BOLD_CYAN
   fi
-}
 
-function git_branch {
-  local on_branch="s/On branch \(.*\)/\1/p"
-  local on_commit="s/HEAD detached at \(.*\)/\1/p"
-  local on_behind="s/Your branch is behind .* by \([0-9]*\) commit.*/-\1/p"
-  local on_ahead="s/Your branch is ahead .* by \([0-9]*\) commit.*/+\1/p"
-  local on_diverged="s/and have \([0-9]*\) and \([0-9]*\) different commits each.*/+\1 -\2/p"
-  local on_rebase="s/You are currently rebasing branch '\(.*\)' on '\(.*\)'\./rebase:\1:\2/p"
-  local result=($(git status 2> /dev/null | \
-    sed -n "$on_branch;$on_commit;$on_diverged;$on_rebase;$on_ahead;$on_behind"))
-  if [[ ${#result[@]} -gt 0 ]]; then
-    echo "(${result[@]})"
+  if [[ "$state" != "" ]]; then
+    echo -e " ${color}($state)${RESET}"
   fi
 }
 
@@ -94,7 +94,7 @@ PS1+="\[$BOLD_YELLOW\]:\[$RESET\]"
 # current directory
 PS1+="\[$BOLD_MAGENTA\]\w\[$RESET\]"
 # on branch
-PS1+=" \[\$(git_color)\]\$(git_branch)\[$RESET\]"
+PS1+="\$(git_status)"
 # with last command time
 PS1+=" \${last_timer}"
 # do

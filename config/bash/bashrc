@@ -58,6 +58,17 @@ fi
 
 # == Additional config files ==
 
+# Load aliases
+source ~/.config/bash/aliases.sh
+if [ -f $HOME/.config/bash/aliases.{{ platform }}.sh ]; then
+  source $HOME/.config/bash/aliases.{{ platform }}.sh
+fi
+
+# Load local config
+if [ -f $HOME/.config/bash/{{ name }}.sh ]; then
+  source $HOME/.config/bash/{{ name }}.sh
+fi
+
 # Load prompt
 PROMPT_COMMAND='LAST_STATUS=$?; history -a'
 source ~/.config/bash/prompt.sh
@@ -84,17 +95,6 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
-fi
-
-# Load aliases
-source ~/.config/bash/aliases.sh
-if [ -f $HOME/.config/bash/aliases.{{ platform }}.sh ]; then
-  source $HOME/.config/bash/aliases.{{ platform }}.sh
-fi
-
-# Load local config
-if [ -f $HOME/.config/bash/{{ name }}.sh ]; then
-  source $HOME/.config/bash/{{ name }}.sh
 fi
 
 # Fzf

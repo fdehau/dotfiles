@@ -71,8 +71,21 @@ function git_status {
   fi
 
   if [[ "$state" != "" ]]; then
-    echo -e " ${color}($state)${RESET}"
+    echo -e " $color($state)$RESET"
   fi
+}
+
+function kube_status {
+  local status=$(kubectl config view --minify -o json)
+  local cluster="$(echo $status | jq -r '.contexts[0].context.cluster')"
+  if [[ "$cluster" == "null" ]]; then
+    return;
+  fi
+  local namespace="$(echo $status | jq -r '.contexts[0].context.namespace')"
+  if [[ "$namespace" != "null" ]]; then
+    cluster="$cluster:$namespace"
+  fi
+  echo -e " $LIGHT_GRAY[$cluster]$RESET"
 }
 
 function status_color {
@@ -93,8 +106,12 @@ PS1+="\[$BOLD_BLUE\]\h\[$RESET\]"
 PS1+="\[$BOLD_YELLOW\]:\[$RESET\]"
 # current directory
 PS1+="\[$BOLD_MAGENTA\]\w\[$RESET\]"
-# on branch
+# git status
 PS1+="\$(git_status)"
+# kube status
+if [[ "$(command -v kubectl jq | wc -l)" == "2" ]]; then
+  PS1+="\$(kube_status)"
+fi
 # with last command time
 PS1+=" \${last_timer}"
 # do

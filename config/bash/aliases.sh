@@ -3,6 +3,9 @@ alias gco='git co $(git br --list --color=never | tr -s " " | cut -d" " -f2 | fz
 alias gbrd='git br -d $(git br --list | fzf-tmux)'
 alias magit='nvim +MagitOnly'
 
+# kuberneters
+alias k="kubectl"
+
 # Reload .bashrc
 alias refresh='source ~/.bashrc'
 

@@ -445,6 +445,8 @@ Plug 'lambdatoast/elm.vim', { 'for': 'elm' }
 
 Plug 'robbles/logstash.vim'
 
+Plug 'hashivim/vim-terraform', { 'for': 'tf' }
+
 " }}}
 
 call plug#end()

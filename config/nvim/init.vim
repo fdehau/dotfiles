@@ -480,7 +480,10 @@ set nocursorline
 
 " Line number
 set number
-set colorcolumn=80
+
+" Line width
+set colorcolumn=100
+set tw=100
 
 " Height of the command line
 set cmdheight=2

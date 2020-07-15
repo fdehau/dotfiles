@@ -220,11 +220,11 @@ let g:multi_cursor_exit_from_insert_mode = 0
 " Disable completion with multiple cursor
 if has_key(g:plugs, 'deoplete.nvim')
   function! Multiple_cursors_before()
-    let g:deoplete#disable_auto_complete = 1
+    call deoplete#custom#option('auto_complete', v:false)
   endfunction
 
   function! Multiple_cursors_after()
-    let g:deoplete#disable_auto_complete = 0
+    call deoplete#custom#option('auto_complete', v:true)
   endfunction
 endif
 " }}}

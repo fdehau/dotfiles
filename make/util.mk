@@ -17,3 +17,5 @@ gen_tmpl = if [[ ! -d $(dir $(2)) ]]; then mkdir -p $(dir $(2)); $(call log_note
 uppercase = $(shell echo $(1) | tr a-z A-Z)
 
 download = $(call log_note,"Downloading $(2) from $(1)"); curl --create-dirs -fLo $(2) $(1);
+
+clone = $(call log_note,"Cloning $(2) from $(1)"); git clone $(1) $(2) --depth 1;

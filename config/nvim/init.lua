@@ -129,6 +129,7 @@ require("packer").startup(function()
         config = function()
             local lsp = require "lspconfig"
             lsp.rust_analyzer.setup{}
+            lsp.gopls.setup{}
 
             keymap("n", "<leader>mn", '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
             keymap("n", "<leader>mp", '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')

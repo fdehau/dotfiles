@@ -192,13 +192,49 @@ require("packer").startup(function()
                 active = {
                     left = {
                         {"mode", "paste"},
-                        {"gitbranch", "readonly", "filename", "modified"},
+                        {"readonly", "filename", "modified"},
+                    },
+                    right = {
+                        {"lineinfo"},
+                        {"percent"},
+                        {"lsp_hints", "lsp_infos", "lsp_warnings", "lsp_errors"}
                     },
                     tabline = {
                         right = {{"close"}},
                     }
-                }
+                },
+                component_expand = {
+                    lsp_errors = "v:lua.lsp_errors",
+                    lsp_warnings = "v:lua.lsp_warnings",
+                    lsp_infos = "v:lua.lsp_infos",
+                    lsp_hints = "v:lua.lsp_hints",
+                },
+                component_type = {
+                    lsp_errors = "error",
+                    lsp_warnings = "warning",
+                    lsp_infos = "info",
+                    lsp_hints = "info",
+                },
             }
+
+            local lsp_callbacks = {
+                {name = "lsp_errors", severity = [[Error]], symbol = "E"},
+                {name = "lsp_warnings", severity = [[Warning]], symbol = "W"},
+                {name = "lsp_infos", severity = [[Info]], symbol = "I"},
+                {name = "lsp_hints", severity = [[Hint]], symbol = "H"},
+            }
+            for _, l in pairs(lsp_callbacks) do
+                _G[l["name"]] = function()
+                    local count = vim.lsp.diagnostic.get_count(0, l["severity"])
+                    if count == 0 then return "" end
+                    return string.format("%s:%d", l["symbol"], count)
+                end
+            end
+
+            vim.api.nvim_command('augroup lsp_aucmds')
+            vim.api.nvim_command('au! * <buffer>')
+            vim.api.nvim_command('au User LspDiagnosticsChanged call lightline#update()')
+            vim.api.nvim_command('augroup END')
         end
     }
     use {
@@ -211,19 +247,15 @@ require("packer").startup(function()
             lightline.tabline = {
                 left = {{"buffers"}}
             }
-            lightline.component_expand = {
-                buffers = "lightline#bufferline#buffers"
-            }
-            lightline.component_type = {
-                buffers = "tabsel"
-            }
+            lightline.component_expand.buffers = "lightline#bufferline#buffers"
+            lightline.component_type.buffers = "tabsel"
             vim.g.lightline = lightline
         end
     }
-    use "airblade/vim-gitgutter"
     use "ntpeters/vim-better-whitespace"
 
     -- git
+    use "airblade/vim-gitgutter"
     use {
         "jreybert/vimagit",
         cmd = {"Magit", "MagitOnly"}

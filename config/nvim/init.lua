@@ -22,15 +22,13 @@ vim.o.backup = false
 vim.o.wb = false
 vim.bo.swapfile = false
 
--- history
-vim.bo.undofile = true
-vim.o.history = 50
-
 -- no tabs and all tabs are 4 spaces
-vim.o.expandtab = true
-vim.o.shiftwidth = 4
-vim.o.softtabstop = 4
-vim.o.shiftround = true
+vim.cmd [[
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+]]
 
 -- search
 vim.o.ignorecase = true
@@ -84,9 +82,7 @@ require("packer").startup(function()
         config = function()
             vim.cmd("colorscheme gruvbox")
             vim.o.background = "dark"
-
             vim.g.gruvbox_italic = 1
-            vim.g.gruvbox_contrast_dark = "medium"
             keymap("n", "<Leader>bg", ':let &background = ( &background == "dark" ? "light" : "dark")<CR>')
         end
     }
@@ -285,6 +281,6 @@ require("packer").startup(function()
     use "airblade/vim-gitgutter"
     use {
         "jreybert/vimagit",
-        cmd = {"Magit", "MagitOnly"}
+        cmd = {"Magit", "MagitOnly"}
     }
 end)

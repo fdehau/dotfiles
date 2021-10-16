@@ -80,9 +80,9 @@ require("packer").startup(function()
     use {
         "morhetz/gruvbox",
         config = function()
+            vim.g.gruvbox_italic = 1
             vim.cmd("colorscheme gruvbox")
             vim.o.background = "dark"
-            vim.g.gruvbox_italic = 1
             keymap("n", "<Leader>bg", ':let &background = ( &background == "dark" ? "light" : "dark")<CR>')
         end
     }

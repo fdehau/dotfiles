@@ -127,18 +127,39 @@ require("packer").startup(function()
     use {
         "neovim/nvim-lspconfig",
         config = function()
-            local lsp = require "lspconfig"
-            lsp.rust_analyzer.setup{}
-            lsp.gopls.setup{}
+            -- Global config
+            vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+                vim.lsp.diagnostic.on_publish_diagnostics,
+                {
+                    update_in_insert = false,
+                }
+            )
 
+            -- Servers config
+            lsp = require'lspconfig'
+            lsp.rust_analyzer.setup{}
+            lsp.gopls.setup{
+                on_init = function(client)
+                    if client.config.flags then
+                        -- Send smaller diffs to gopls
+                        client.config.flags.allow_incremental_sync = true
+                    end
+                end,
+                root_dir = function(fname)
+                    -- Avoid loading the world when working on big monorepo
+                    return vim.fn.getcwd()
+                end,
+            }
+
+            -- Keymaps
             keymap("n", "<leader>mn", '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
             keymap("n", "<leader>mp", '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
             keymap("n", "<leader>ma", '<cmd>lua vim.lsp.buf.code_action()<CR>')
             keymap("n", "<leader>md", '<cmd>lua vim.lsp.buf.definition()<CR>')
             keymap("n", "<leader>mf", '<cmd>lua vim.lsp.buf.formatting()<CR>')
             keymap("n", "<leader>mh", '<cmd>lua vim.lsp.buf.hover()<CR>')
-            keymap("n", "<leader>mr", '<cmd>lua vim.lsp.buf.rename()<CR>')
-            keymap("n", "<leader>mR", '<cmd>lua vim.lsp.buf.references()<CR>')
+            keymap("n", "<leader>mr", '<cmd>lua vim.lsp.buf.references()<CR>')
+            keymap("n", "<leader>mR", '<cmd>lua vim.lsp.buf.rename()<CR>')
             keymap("n", "<leader>ms", '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
         end
     }
@@ -156,11 +177,10 @@ require("packer").startup(function()
             vim.g["deoplete#enable_at_startup"] = 1
             vim.fn["deoplete#custom#option"]({
                 smart_case = true,
-                max_list = 30,
+                max_list = 10,
             })
         end,
     }
-    use "shougo/deoplete-lsp"
     use "Raimondi/delimitMate"
 
     -- navigation
@@ -172,12 +192,19 @@ require("packer").startup(function()
         config = function()
             keymap("n", "<Leader>f", ":Files <CR>", {silent = true})
             keymap("n", "<Leader>o", ":Buffers <CR>", {silent = true})
-            keymap("n", "<Leader>l", ":Lines <CR>", {silent = true})
-            keymap("n", "<Leader>L", ":Lines <C-R><C-W><CR>", {silent = true})
+            keymap("n", "<Leader>l", ":BLines <CR>", {silent = true})
+            keymap("n", "<Leader>L", ":BLines <C-R><C-W><CR>", {silent = true})
             keymap("n", "<Leader>rg", ":Rg <C-R><C-W><CR>", {silent = true})
         end
     }
     use "junegunn/fzf.vim"
+    use {
+        "ojroques/nvim-lspfuzzy",
+        config = function()
+            lspfuzzy = require "lspfuzzy"
+            lspfuzzy.setup{}
+        end,
+    }
 
     -- ui
     use {

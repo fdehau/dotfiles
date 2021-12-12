@@ -220,43 +220,44 @@ require("packer").startup(function()
                     right = {
                         {"lineinfo"},
                         {"percent"},
-                        {"lsp_hints", "lsp_infos", "lsp_warnings", "lsp_errors"}
+                        {"diagnostic_hints", "diagnostic_infos", "diagnostic_warnings", "diagnostic_errors"}
                     },
                     tabline = {
                         right = {{"close"}},
                     }
                 },
                 component_expand = {
-                    lsp_errors = "v:lua.lsp_errors",
-                    lsp_warnings = "v:lua.lsp_warnings",
-                    lsp_infos = "v:lua.lsp_infos",
-                    lsp_hints = "v:lua.lsp_hints",
+                    diagnostic_errors = "v:lua.diagnostic_errors",
+                    diagnostic_warnings = "v:lua.diagnostic_warnings",
+                    diagnostic_infos = "v:lua.diagnostic_infos",
+                    diagnostic_hints = "v:lua.diagnostic_hints",
                 },
                 component_type = {
-                    lsp_errors = "error",
-                    lsp_warnings = "warning",
-                    lsp_infos = "info",
-                    lsp_hints = "info",
+                    diagnostic_errors = "error",
+                    diagnostic_warnings = "warning",
+                    diagnostic_infos = "warning",
+                    diagnostic_hints = "warning",
                 },
             }
 
-            local lsp_callbacks = {
-                {name = "lsp_errors", severity = [[Error]], symbol = "E"},
-                {name = "lsp_warnings", severity = [[Warning]], symbol = "W"},
-                {name = "lsp_infos", severity = [[Info]], symbol = "I"},
-                {name = "lsp_hints", severity = [[Hint]], symbol = "H"},
+            local diagnostic_callbacks = {
+                {name = "diagnostic_errors", severity = vim.diagnostic.severity.ERROR, symbol = "E"},
+                {name = "diagnostic_warnings", severity = vim.diagnostic.severity.WARN, symbol = "W"},
+                {name = "diagnostic_infos", severity = vim.diagnostic.severity.INFO, symbol = "I"},
+                {name = "diagnostic_hints", severity = vim.diagnostic.severity.HINT, symbol = "H"},
             }
-            for _, l in pairs(lsp_callbacks) do
+            for _, l in pairs(diagnostic_callbacks) do
                 _G[l["name"]] = function()
-                    local count = vim.lsp.diagnostic.get_count(0, l["severity"])
+                    local diagnostics = vim.diagnostic.get(0, { severity = l["severity"] })
+                    local count = table.getn(diagnostics)
                     if count == 0 then return "" end
                     return string.format("%s:%d", l["symbol"], count)
                 end
             end
 
-            vim.api.nvim_command('augroup lsp_aucmds')
+            vim.api.nvim_command('augroup diagnostic_aucmds')
             vim.api.nvim_command('au! * <buffer>')
-            vim.api.nvim_command('au User LspDiagnosticsChanged call lightline#update()')
+            vim.api.nvim_command('au DiagnosticChanged * call lightline#update()')
             vim.api.nvim_command('augroup END')
         end
     }

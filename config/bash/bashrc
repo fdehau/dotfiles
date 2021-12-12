@@ -76,13 +76,6 @@ source ~/.config/bash/prompt.sh
 # Load custom functions
 source ~/.config/bash/fns.sh
 
-# Load colors
-if [ -f $HOME/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh ]; then
-  source $HOME/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh
-elif [ -f $HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh ]; then
-  source $HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh
-fi
-
 # Load z
 if [ -f $HOME/.config/bash/z.sh ]; then
   source $HOME/.config/bash/z.sh

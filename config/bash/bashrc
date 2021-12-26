@@ -70,8 +70,8 @@ if [ -f $HOME/.config/bash/{{ name }}.sh ]; then
 fi
 
 # Load prompt
-PROMPT_COMMAND='LAST_STATUS=$?; history -a'
-source ~/.config/bash/prompt.sh
+PROMPT_COMMAND='history -a'
+eval "$(starship init bash)"
 
 # Load custom functions
 source ~/.config/bash/fns.sh

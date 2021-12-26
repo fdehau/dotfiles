@@ -1,0 +1,29 @@
+command_timeout = 1000
+format = "$cmd_duration$username@$hostname $git_branch$git_commit$git_status$git_state$kubernetes$directory$line_break$character"
+
+[character]
+success_symbol = "[>>](bold green)"
+error_symbol = "[>>](bold red)"
+
+[username]
+format = "[$user](bold blue)"
+show_always = true
+
+[hostname]
+format = "[$hostname](bold cyan)"
+ssh_only = false
+
+[directory]
+style = "bold green"
+
+[kubernetes]
+disabled = false
+style = "bold yellow"
+
+[fill]
+symbol = " "
+
+[cmd_duration]
+format = "+ [$duration]($style)\n"
+style = ""
+show_milliseconds = true

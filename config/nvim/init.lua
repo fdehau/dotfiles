@@ -93,9 +93,9 @@ require("packer").startup(function()
         "junegunn/vim-easy-align",
         config = function()
             -- start interactive EasyAlign in visual mode (e.g. vipga)
-            keymap("x", "ga", '<Plug>(EasyAlign)')
+            keymap("x", "ga", '<Plug>(EasyAlign)', {noremap = false})
             -- start interactive EasyAlign for a motion/text object (e.g. gaip)
-            keymap("v", "ga", '<Plug>(EasyAlign)')
+            keymap("v", "ga", '<Plug>(EasyAlign)', {noremap = false})
         end
     }
     use "tpope/vim-commentary"
@@ -107,8 +107,8 @@ require("packer").startup(function()
         config = function()
             vim.g.move_map_keys = 0
             vim.g.move_auto_indent = 0
-            keymap("v", "<C-Up>", "<Plug>MoveBlockUp")
-            keymap("v", "<C-Down>", "<Plug>MoveBlockDown")
+            keymap("v", "<C-Up>", "<Plug>MoveBlockUp", {noremap = false})
+            keymap("v", "<C-Down>", "<Plug>MoveBlockDown", {noremap = false})
         end
     }
     use {

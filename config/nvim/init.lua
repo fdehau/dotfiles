@@ -148,8 +148,8 @@ require("packer").startup(function()
             }
 
             -- Keymaps
-            keymap("n", "<leader>mn", '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-            keymap("n", "<leader>mp", '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+            keymap("n", "<leader>mn", '<cmd>lua vim.diagnostic.goto_prev()<CR>')
+            keymap("n", "<leader>mp", '<cmd>lua vim.diagnostic.goto_next()<CR>')
             keymap("n", "<leader>ma", '<cmd>lua vim.lsp.buf.code_action()<CR>')
             keymap("n", "<leader>md", '<cmd>lua vim.lsp.buf.definition()<CR>')
             keymap("n", "<leader>mf", '<cmd>lua vim.lsp.buf.formatting()<CR>')

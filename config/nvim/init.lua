@@ -23,12 +23,12 @@ vim.o.wb = false
 vim.bo.swapfile = false
 
 -- no tabs and all tabs are 4 spaces
-vim.cmd [[
+vim.cmd([[
 set expandtab
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-]]
+]])
 
 -- search
 vim.o.ignorecase = true
@@ -41,9 +41,11 @@ vim.o.inccommand = "nosplit"
 vim.o.mouse = "a"
 
 function keymap(mode, lhs, rhs, opts)
-    local options = {noremap = true}
-    if opts then options = vim.tbl_extend("force", options, opts) end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+	local options = { noremap = true }
+	if opts then
+		options = vim.tbl_extend("force", options, opts)
+	end
+	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
 keymap("i", "jj", "<Esc>")
@@ -71,208 +73,207 @@ keymap("n", "<Leader>P", '"+P')
 -- plugins
 local packer_exists = vim.cmd("packadd packer.nvim")
 require("packer").startup(function()
-    use {
-        "wbthomason/packer.nvim",
-        opt = true
-    }
+	use({
+		"wbthomason/packer.nvim",
+		opt = true,
+	})
 
-    -- colors
-    use {
-        "morhetz/gruvbox",
-        config = function()
-            function set_colorschme(mode)
-                if mode == "dark" then
-                    vim.o.background = "dark"
-                    vim.fn.setenv("BAT_THEME", "gruvbox-dark")
-                else
-                    vim.o.background = "light"
-                    vim.fn.setenv("BAT_THEME", "gruvbox-light")
-                end
-            end
+	-- colors
+	use({
+		"morhetz/gruvbox",
+		config = function()
+			function set_colorschme(mode)
+				if mode == "dark" then
+					vim.o.background = "dark"
+					vim.fn.setenv("BAT_THEME", "gruvbox-dark")
+				else
+					vim.o.background = "light"
+					vim.fn.setenv("BAT_THEME", "gruvbox-light")
+				end
+			end
 
-            -- defaults
-            vim.g.gruvbox_italic = 1
-            vim.cmd("colorscheme gruvbox")
-            vim.o.background = "dark"
+			-- defaults
+			vim.g.gruvbox_italic = 1
+			vim.cmd("colorscheme gruvbox")
+			vim.o.background = "dark"
 
-            -- override with light colorscheme if MacOS is not in dark mode
-            local sys_name = vim.loop.os_uname().sysname
-            if sys_name == "Darwin" then
-                local apple_interface_style = vim.fn.trim(
-                    vim.fn.system({
-                        "defaults",
-                        "read",
-                        "-g",
-                        "AppleInterfaceStyle",
-                    })
-                )
-                if apple_interface_style ~= "Dark" then
-                    set_colorschme("light")
-                end
-            end
+			-- override with light colorscheme if MacOS is not in dark mode
+			local sys_name = vim.loop.os_uname().sysname
+			if sys_name == "Darwin" then
+				local apple_interface_style = vim.fn.trim(vim.fn.system({
+					"defaults",
+					"read",
+					"-g",
+					"AppleInterfaceStyle",
+				}))
+				if apple_interface_style ~= "Dark" then
+					set_colorschme("light")
+				end
+			end
 
-            -- keymap to toggle colorscheme
-            vim.keymap.set("n", "<Leader>bg", function()
-                if vim.o.background == "dark" then
-                    set_colorschme("light")
-                else
-                    set_colorschme("dark")
-                end
-            end)
-        end
-    }
+			-- keymap to toggle colorscheme
+			vim.keymap.set("n", "<Leader>bg", function()
+				if vim.o.background == "dark" then
+					set_colorschme("light")
+				else
+					set_colorschme("dark")
+				end
+			end)
+		end,
+	})
 
-    -- edits
-    use "tpope/vim-surround"
-    use {
-        "junegunn/vim-easy-align",
-        config = function()
-            -- start interactive EasyAlign in visual mode (e.g. vipga)
-            keymap("x", "ga", '<Plug>(EasyAlign)', {noremap = false})
-            -- start interactive EasyAlign for a motion/text object (e.g. gaip)
-            keymap("v", "ga", '<Plug>(EasyAlign)', {noremap = false})
-        end
-    }
-    use "tpope/vim-commentary"
-    use "terryma/vim-expand-region"
+	-- edits
+	use("tpope/vim-surround")
+	use({
+		"junegunn/vim-easy-align",
+		config = function()
+			-- start interactive EasyAlign in visual mode (e.g. vipga)
+			keymap("x", "ga", "<Plug>(EasyAlign)", { noremap = false })
+			-- start interactive EasyAlign for a motion/text object (e.g. gaip)
+			keymap("v", "ga", "<Plug>(EasyAlign)", { noremap = false })
+		end,
+	})
+	use("tpope/vim-commentary")
+	use("terryma/vim-expand-region")
 
-    -- moving around
-    use {
-        "matze/vim-move",
-        config = function()
-            vim.g.move_map_keys = 0
-            vim.g.move_auto_indent = 0
-            keymap("v", "<C-Up>", "<Plug>MoveBlockUp", {noremap = false})
-            keymap("v", "<C-Down>", "<Plug>MoveBlockDown", {noremap = false})
-        end
-    }
-    use {
-        "justinmk/vim-sneak",
-        config = function()
-            vim.g['sneak#streak'] = 1
-        end
-    }
-    use "christoomey/vim-tmux-navigator"
+	-- moving around
+	use({
+	    "matze/vim-move",
+		config = function()
+			vim.g.move_map_keys = 0
+			vim.g.move_auto_indent = 0
+			keymap("v", "<C-Up>", "<Plug>MoveBlockUp", { noremap = false })
+			keymap("v", "<C-Down>", "<Plug>MoveBlockDown", { noremap = false })
+		end,
+	})
+	use({
+		"justinmk/vim-sneak",
+		config = function()
+			vim.g["sneak#streak"] = 1
+		end,
+	})
+	use("christoomey/vim-tmux-navigator")
 
-    -- lsp
-    use {
-        "neovim/nvim-lspconfig",
-        config = function()
-            -- Global config
-            vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-                vim.lsp.diagnostic.on_publish_diagnostics,
-                {
-                    update_in_insert = false,
-                }
-            )
+	-- lsp
+	use({
+		"neovim/nvim-lspconfig",
+		config = function()
+			-- Global config
+			vim.lsp.handlers["textDocument/publishDiagnostics"] =
+				vim.lsp.with(
+					vim.lsp.diagnostic.on_publish_diagnostics,
+					{
+						update_in_insert = false,
+					}
+				)
 
-            -- Servers config
-            lsp = require'lspconfig'
-            lsp.rust_analyzer.setup{}
-            lsp.gopls.setup{
-                on_init = function(client)
-                    if client.config.flags then
-                        -- Send smaller diffs to gopls
-                        client.config.flags.allow_incremental_sync = true
-                    end
-                end,
-                root_dir = function(fname)
-                    -- Avoid loading the world when working on big monorepo
-                    return vim.fn.getcwd()
-                end,
-            }
+			-- Servers config
+			lsp = require("lspconfig")
+			lsp.rust_analyzer.setup({})
+			lsp.gopls.setup({
+				on_init = function(client)
+					if client.config.flags then
+						-- Send smaller diffs to gopls
+						client.config.flags.allow_incremental_sync = true
+					end
+				end,
+				root_dir = function(fname)
+					-- Avoid loading the world when working on big monorepo
+					return vim.fn.getcwd()
+				end,
+			})
 
-            -- Keymaps
-            keymap("n", "<leader>mn", '<cmd>lua vim.diagnostic.goto_prev()<CR>')
-            keymap("n", "<leader>mp", '<cmd>lua vim.diagnostic.goto_next()<CR>')
-            keymap("n", "<leader>ma", '<cmd>lua vim.lsp.buf.code_action()<CR>')
-            keymap("n", "<leader>md", '<cmd>lua vim.lsp.buf.definition()<CR>')
-            keymap("n", "<leader>mf", '<cmd>lua vim.lsp.buf.formatting()<CR>')
-            keymap("n", "<leader>mh", '<cmd>lua vim.lsp.buf.hover()<CR>')
-            keymap("n", "<leader>mr", '<cmd>lua vim.lsp.buf.references()<CR>')
-            keymap("n", "<leader>mR", '<cmd>lua vim.lsp.buf.rename()<CR>')
-            keymap("n", "<leader>ms", '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
-        end
-    }
+			-- Keymaps
+			keymap("n", "<leader>mn", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
+			keymap("n", "<leader>mp", "<cmd>lua vim.diagnostic.goto_next()<CR>")
+			keymap("n", "<leader>ma", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+			keymap("n", "<leader>md", "<cmd>lua vim.lsp.buf.definition()<CR>")
+			keymap("n", "<leader>mf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+			keymap("n", "<leader>mh", "<cmd>lua vim.lsp.buf.hover()<CR>")
+			keymap("n", "<leader>mr", "<cmd>lua vim.lsp.buf.references()<CR>")
+			keymap("n", "<leader>mR", "<cmd>lua vim.lsp.buf.rename()<CR>")
+			keymap("n", "<leader>ms", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
+		end,
+	})
 
-    -- completion
-    use {
-        'shougo/deoplete.nvim',
-        run = function()
-            vim.fn["remote#host#UpdateRemotePlugins"]()
-        end,
-        config = function()
-            keymap("i", "<S-Tab>", 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', {expr = true})
-            keymap("i", "<Tab>", 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
-            vim.o.completeopt = 'menuone,noinsert,noselect'
-            vim.g["deoplete#enable_at_startup"] = 1
-            vim.fn["deoplete#custom#option"]({
-                smart_case = true,
-                max_list = 10,
-            })
-        end,
-    }
-    use "Raimondi/delimitMate"
+	-- completion
+	use({
+		"shougo/deoplete.nvim",
+		run = function()
+			vim.fn["remote#host#UpdateRemotePlugins"]()
+		end,
+		config = function()
+			keymap("i", "<S-Tab>", 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', { expr = true })
+			keymap("i", "<Tab>", 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { expr = true })
+			vim.o.completeopt = "menuone,noinsert,noselect"
+			vim.g["deoplete#enable_at_startup"] = 1
+			vim.fn["deoplete#custom#option"]({
+				smart_case = true,
+				max_list = 10,
+			})
+		end,
+	})
+	use("Raimondi/delimitMate")
 
-    -- navigation
-    use {
-        "junegunn/fzf",
-        run = function()
-            vim.fn["fzf#install"]()
-        end,
-        config = function()
-            vim.g.fzf_colors = {
-                fg      = {'fg', 'Normal'},
-                bg      = {'bg', 'Normal'},
-                hl      = {'fg', 'Comment'},
-                ['fg+'] = {'fg', 'CursorLine', 'CursorColumn', 'Normal'},
-                ['bg+'] = {'bg', 'CursorLine', 'CursorColumn'},
-                ['hl+'] = {'fg', 'Statement'},
-                info    = {'fg', 'PreProc'},
-                border  = {'fg', 'Ignore'},
-                prompt  = {'fg', 'Conditional'},
-                pointer = {'fg', 'Exception'},
-                marker  = {'fg', 'Keyword'},
-                spinner = {'fg', 'Label'},
-                header  = {'fg', 'Comment'},
-            }
-            keymap("n", "<Leader>f", ":Files <CR>", {silent = true})
-            keymap("n", "<Leader>o", ":Buffers <CR>", {silent = true})
-            keymap("n", "<Leader>l", ":BLines <CR>", {silent = true})
-            keymap("n", "<Leader>L", ":BLines <C-R><C-W><CR>", {silent = true})
-            keymap("n", "<Leader>rg", ":Rg <C-R><C-W><CR>", {silent = true})
-        end
-    }
-    use "junegunn/fzf.vim"
-    use {
-        "ojroques/nvim-lspfuzzy",
-        config = function()
-            local lspfuzzy = require "lspfuzzy"
-            lspfuzzy.setup{}
-        end,
-    }
+	-- navigation
+	use({
+		"junegunn/fzf",
+		run = function()
+			vim.fn["fzf#install"]()
+		end,
+		config = function()
+			vim.g.fzf_colors = {
+				fg = { "fg", "Normal" },
+				bg = { "bg", "Normal" },
+				hl = { "fg", "Comment" },
+				["fg+"] = { "fg", "CursorLine", "CursorColumn", "Normal" },
+				["bg+"] = { "bg", "CursorLine", "CursorColumn" },
+				["hl+"] = { "fg", "Statement" },
+				info = { "fg", "PreProc" },
+				border = { "fg", "Ignore" },
+				prompt = { "fg", "Conditional" },
+				pointer = { "fg", "Exception" },
+				marker = { "fg", "Keyword" },
+				spinner = { "fg", "Label" },
+				header = { "fg", "Comment" },
+			}
+			keymap("n", "<Leader>f", ":Files <CR>", { silent = true })
+			keymap("n", "<Leader>o", ":Buffers <CR>", { silent = true })
+			keymap("n", "<Leader>l", ":BLines <CR>", { silent = true })
+			keymap("n", "<Leader>L", ":BLines <C-R><C-W><CR>", { silent = true })
+			keymap("n", "<Leader>rg", ":Rg <C-R><C-W><CR>", { silent = true })
+		end,
+	})
+	use("junegunn/fzf.vim")
+	use({
+		"ojroques/nvim-lspfuzzy",
+		config = function()
+			local lspfuzzy = require("lspfuzzy")
+			lspfuzzy.setup({})
+		end,
+	})
 
-    -- ui
-    use {
-        'nvim-lualine/lualine.nvim',
-        config = function()
-            local lualine = require('lualine')
-            lualine.setup{
-                options = {
-                    icons_enabled = false,
-                },
-                tabline = {
-                    lualine_a = {'buffers'},
-                },
-            }
-        end
-    }
-    use "ntpeters/vim-better-whitespace"
+	-- ui
+	use({
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			local lualine = require("lualine")
+			lualine.setup({
+				options = {
+					icons_enabled = false,
+				},
+				tabline = {
+					lualine_a = { "buffers" },
+				},
+			})
+		end,
+	})
+	use("ntpeters/vim-better-whitespace")
 
-    -- git
-    use "airblade/vim-gitgutter"
-    use {
-        "jreybert/vimagit",
-        cmd = {"Magit", "MagitOnly"}
-    }
+	-- git
+	use("airblade/vim-gitgutter")
+	use({
+		"jreybert/vimagit",
+		cmd = { "Magit", "MagitOnly" },
+	})
 end)

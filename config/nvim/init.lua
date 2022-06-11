@@ -197,83 +197,24 @@ require("packer").startup(function()
     use {
         "ojroques/nvim-lspfuzzy",
         config = function()
-            lspfuzzy = require "lspfuzzy"
+            local lspfuzzy = require "lspfuzzy"
             lspfuzzy.setup{}
         end,
     }
 
     -- ui
     use {
-        "itchyny/lightline.vim",
+        'nvim-lualine/lualine.nvim',
         config = function()
-            vim.g.lightline = {
-                colorscheme = "gruvbox",
-                enable = {
-                    statusline = 1,
-                    tabline = 1,
+            local lualine = require('lualine')
+            lualine.setup{
+                options = {
+                    icons_enabled = false,
                 },
-                active = {
-                    left = {
-                        {"mode", "paste"},
-                        {"readonly", "filename", "modified"},
-                    },
-                    right = {
-                        {"lineinfo"},
-                        {"percent"},
-                        {"diagnostic_hints", "diagnostic_infos", "diagnostic_warnings", "diagnostic_errors"}
-                    },
-                    tabline = {
-                        right = {{"close"}},
-                    }
-                },
-                component_expand = {
-                    diagnostic_errors = "v:lua.diagnostic_errors",
-                    diagnostic_warnings = "v:lua.diagnostic_warnings",
-                    diagnostic_infos = "v:lua.diagnostic_infos",
-                    diagnostic_hints = "v:lua.diagnostic_hints",
-                },
-                component_type = {
-                    diagnostic_errors = "error",
-                    diagnostic_warnings = "warning",
-                    diagnostic_infos = "warning",
-                    diagnostic_hints = "warning",
+                tabline = {
+                    lualine_a = {'buffers'},
                 },
             }
-
-            local diagnostic_callbacks = {
-                {name = "diagnostic_errors", severity = vim.diagnostic.severity.ERROR, symbol = "E"},
-                {name = "diagnostic_warnings", severity = vim.diagnostic.severity.WARN, symbol = "W"},
-                {name = "diagnostic_infos", severity = vim.diagnostic.severity.INFO, symbol = "I"},
-                {name = "diagnostic_hints", severity = vim.diagnostic.severity.HINT, symbol = "H"},
-            }
-            for _, l in pairs(diagnostic_callbacks) do
-                _G[l["name"]] = function()
-                    local diagnostics = vim.diagnostic.get(0, { severity = l["severity"] })
-                    local count = table.getn(diagnostics)
-                    if count == 0 then return "" end
-                    return string.format("%s:%d", l["symbol"], count)
-                end
-            end
-
-            vim.api.nvim_command('augroup diagnostic_aucmds')
-            vim.api.nvim_command('au! * <buffer>')
-            vim.api.nvim_command('au DiagnosticChanged * call lightline#update()')
-            vim.api.nvim_command('augroup END')
-        end
-    }
-    use {
-        "mgee/lightline-bufferline",
-        after = "lightline.vim",
-        config = function()
-            vim.o.showtabline = 2
-
-            local lightline = vim.g.lightline or {}
-            lightline.tabline = {
-                left = {{"buffers"}}
-            }
-            lightline.component_expand.buffers = "lightline#bufferline#buffers"
-            lightline.component_type.buffers = "tabsel"
-            vim.g.lightline = lightline
         end
     }
     use "ntpeters/vim-better-whitespace"

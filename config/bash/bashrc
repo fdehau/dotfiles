@@ -97,6 +97,15 @@ if [ -f ~/.fzf.bash ]; then
   source ~/.fzf.bash
 fi
 
+# Bat
+export BAT_THEME="gruvbox-dark"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    apple_interface_style="$(defaults read -g AppleInterfaceStyle 2>&1 | tr -d '[:space:]')"
+    if [[ "$apple_interface_style" != "Dark" ]]; then
+        export BAT_THEME="gruvbox-light"
+    fi
+fi
+
 # Rust
 # Put binaries installed using "cargo install" in path
 export PATH="$PATH:$HOME/.cargo/bin"

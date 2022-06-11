@@ -80,10 +80,45 @@ require("packer").startup(function()
     use {
         "morhetz/gruvbox",
         config = function()
+            function set_colorschme(mode)
+                if mode == "dark" then
+                    vim.o.background = "dark"
+                    vim.fn.setenv("BAT_THEME", "gruvbox-dark")
+                else
+                    vim.o.background = "light"
+                    vim.fn.setenv("BAT_THEME", "gruvbox-light")
+                end
+            end
+
+            -- defaults
             vim.g.gruvbox_italic = 1
             vim.cmd("colorscheme gruvbox")
             vim.o.background = "dark"
-            keymap("n", "<Leader>bg", ':let &background = ( &background == "dark" ? "light" : "dark")<CR>')
+
+            -- override with light colorscheme if MacOS is not in dark mode
+            local sys_name = vim.loop.os_uname().sysname
+            if sys_name == "Darwin" then
+                local apple_interface_style = vim.fn.trim(
+                    vim.fn.system({
+                        "defaults",
+                        "read",
+                        "-g",
+                        "AppleInterfaceStyle",
+                    })
+                )
+                if apple_interface_style ~= "Dark" then
+                    set_colorschme("light")
+                end
+            end
+
+            -- keymap to toggle colorscheme
+            vim.keymap.set("n", "<Leader>bg", function()
+                if vim.o.background == "dark" then
+                    set_colorschme("light")
+                else
+                    set_colorschme("dark")
+                end
+            end)
         end
     }
 

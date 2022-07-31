@@ -138,7 +138,7 @@ require("packer").startup(function()
 
 	-- moving around
 	use({
-	    "matze/vim-move",
+		"matze/vim-move",
 		config = function()
 			vim.g.move_map_keys = 0
 			vim.g.move_auto_indent = 0
@@ -275,5 +275,17 @@ require("packer").startup(function()
 	use({
 		"jreybert/vimagit",
 		cmd = { "Magit", "MagitOnly" },
+	})
+
+	-- tree sitter
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				highlight = {
+					enable = { "fish", "lua" },
+				},
+			})
+		end,
 	})
 end)

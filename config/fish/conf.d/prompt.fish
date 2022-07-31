@@ -1,4 +1,6 @@
 if status is-interactive
+    # disable greetings
+    set fish_greeting
     if type -q "starship"
         starship init fish | source
     else

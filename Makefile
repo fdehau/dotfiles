@@ -65,6 +65,10 @@ distclean: ## Remove configuration files and downloaded files
 	@rm -f $(BIN_DIR)/tmpl
 	@$(call log_note,"Removed $(BIN_DIR)/tmpl")
 
+.PHONY: fmt
+fmt: ## Format configuration files
+	@stylua config/nvim/init.lua
+
 # Macro used to define the hooks required to manage a dotfiles' component (ie
 # install, clean, ...)
 define COMPONENT

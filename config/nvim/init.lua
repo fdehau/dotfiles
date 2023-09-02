@@ -51,6 +51,8 @@ end
 keymap("i", "jj", "<Esc>")
 keymap("v", "jj", "<Esc>")
 keymap("n", "<Leader>w", ":w<CR>")
+keymap("n", "<Leader>wq", ":wq<CR>")
+keymap("n", "<Leader>q", ":q<CR>")
 keymap("n", "<Leader><Leader>", "V")
 keymap("v", "<Leader><Leader>", "<Esc>")
 keymap("n", "<CR>", "o<Esc>")

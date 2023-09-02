@@ -73,15 +73,25 @@ keymap("n", "<Leader>p", '"+p')
 keymap("n", "<Leader>P", '"+P')
 
 -- plugins
-local packer_exists = vim.cmd("packadd packer.nvim")
-require("packer").startup(function()
-	use({
-		"wbthomason/packer.nvim",
-		opt = true,
-	})
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	msg = table.concat({
+		"lazy.nvim is not installed, please run:",
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	}, " ")
+	vim.print(msg)
+	return
+end
+vim.opt.rtp:prepend(lazypath)
 
+require("lazy").setup({
 	-- colors
-	use({
+	{
 		"morhetz/gruvbox",
 		config = function()
 			function set_colorschme(mode)
@@ -122,11 +132,11 @@ require("packer").startup(function()
 				end
 			end)
 		end,
-	})
+	},
 
 	-- edits
-	use("tpope/vim-surround")
-	use({
+	"tpope/vim-surround",
+	{
 		"junegunn/vim-easy-align",
 		config = function()
 			-- start interactive EasyAlign in visual mode (e.g. vipga)
@@ -134,40 +144,28 @@ require("packer").startup(function()
 			-- start interactive EasyAlign for a motion/text object (e.g. gaip)
 			keymap("v", "ga", "<Plug>(EasyAlign)", { noremap = false })
 		end,
-	})
-	use("tpope/vim-commentary")
-	use("terryma/vim-expand-region")
+	},
+	"tpope/vim-commentary",
+	"terryma/vim-expand-region",
 
 	-- moving around
-	use({
-		"matze/vim-move",
-		config = function()
-			vim.g.move_map_keys = 0
-			vim.g.move_auto_indent = 0
-			keymap("v", "<C-Up>", "<Plug>MoveBlockUp", { noremap = false })
-			keymap("v", "<C-Down>", "<Plug>MoveBlockDown", { noremap = false })
-		end,
-	})
-	use({
+	{
 		"justinmk/vim-sneak",
 		config = function()
 			vim.g["sneak#streak"] = 1
 		end,
-	})
-	use("christoomey/vim-tmux-navigator")
+	},
+	"christoomey/vim-tmux-navigator",
 
 	-- lsp
-	use({
+	{
 		"neovim/nvim-lspconfig",
 		config = function()
 			-- Global config
 			vim.lsp.handlers["textDocument/publishDiagnostics"] =
-				vim.lsp.with(
-					vim.lsp.diagnostic.on_publish_diagnostics,
-					{
-						update_in_insert = false,
-					}
-				)
+				vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+					update_in_insert = false,
+				})
 
 			-- Servers config
 			lsp = require("lspconfig")
@@ -196,12 +194,12 @@ require("packer").startup(function()
 			keymap("n", "<leader>mR", "<cmd>lua vim.lsp.buf.rename()<CR>")
 			keymap("n", "<leader>ms", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
 		end,
-	})
+	},
 
 	-- completion
-	use({
+	{
 		"shougo/deoplete.nvim",
-		run = function()
+		build = function()
 			vim.fn["remote#host#UpdateRemotePlugins"]()
 		end,
 		config = function()
@@ -214,13 +212,13 @@ require("packer").startup(function()
 				max_list = 10,
 			})
 		end,
-	})
-	use("Raimondi/delimitMate")
+	},
+	"Raimondi/delimitMate",
 
 	-- navigation
-	use({
+	{
 		"junegunn/fzf",
-		run = function()
+		build = function()
 			vim.fn["fzf#install"]()
 		end,
 		config = function()
@@ -239,55 +237,46 @@ require("packer").startup(function()
 				spinner = { "fg", "Label" },
 				header = { "fg", "Comment" },
 			}
-			keymap("n", "<Leader>f", ":Files <CR>", { silent = true })
-			keymap("n", "<Leader>o", ":Buffers <CR>", { silent = true })
-			keymap("n", "<Leader>l", ":BLines <CR>", { silent = true })
-			keymap("n", "<Leader>L", ":BLines <C-R><C-W><CR>", { silent = true })
-			keymap("n", "<Leader>rg", ":Rg <C-R><C-W><CR>", { silent = true })
 		end,
-	})
-	use("junegunn/fzf.vim")
-	use({
-		"ojroques/nvim-lspfuzzy",
-		config = function()
-			local lspfuzzy = require("lspfuzzy")
-			lspfuzzy.setup({})
-		end,
-	})
+		keys = {
+			{ "<leader>f", ":Files<CR>" },
+			{ "<leader>o", ":Buffers <CR>" },
+			{ "<leader>l", ":BLines <CR>" },
+			{ "<leader>L", ":BLines <C-R><C-W><CR>" },
+			{ "<leader>rg", ":Rg <C-R><C-W><CR>" },
+		},
+	},
+	"junegunn/fzf.vim",
+	"ojroques/nvim-lspfuzzy",
 
 	-- ui
-	use({
+	{
 		"nvim-lualine/lualine.nvim",
-		config = function()
-			local lualine = require("lualine")
-			lualine.setup({
-				options = {
-					icons_enabled = false,
-				},
-				tabline = {
-					lualine_a = { "buffers" },
-				},
-			})
-		end,
-	})
-	use("ntpeters/vim-better-whitespace")
+		opts = {
+			options = {
+				icons_enabled = false,
+			},
+			tabline = {
+				lualine_a = { "buffers" },
+			},
+		},
+	},
+	"ntpeters/vim-better-whitespace",
 
 	-- git
-	use("airblade/vim-gitgutter")
-	use({
+	"airblade/vim-gitgutter",
+	{
 		"jreybert/vimagit",
 		cmd = { "Magit", "MagitOnly" },
-	})
+	},
 
 	-- tree sitter
-	use({
+	{
 		"nvim-treesitter/nvim-treesitter",
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				highlight = {
-					enable = { "fish", "lua", "terraform" },
-				},
-			})
-		end,
-	})
-end)
+		opts = {
+			highlight = {
+				enable = { "fish", "lua", "terraform" },
+			},
+		},
+	},
+})

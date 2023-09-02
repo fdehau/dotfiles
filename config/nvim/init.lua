@@ -285,7 +285,7 @@ require("packer").startup(function()
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				highlight = {
-					enable = { "fish", "lua" },
+					enable = { "fish", "lua", "terraform" },
 				},
 			})
 		end,

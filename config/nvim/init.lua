@@ -206,11 +206,11 @@ require("lazy").setup({
 			keymap("i", "<S-Tab>", 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', { expr = true })
 			keymap("i", "<Tab>", 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { expr = true })
 			vim.o.completeopt = "menuone,noinsert,noselect"
-			vim.g["deoplete#enable_at_startup"] = 1
 			vim.fn["deoplete#custom#option"]({
 				smart_case = true,
 				max_list = 10,
 			})
+			vim.fn["deoplete#enable"]()
 		end,
 	},
 	"Raimondi/delimitMate",

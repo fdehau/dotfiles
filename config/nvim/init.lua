@@ -181,6 +181,11 @@ require("lazy").setup({
 					-- Avoid loading the world when working on big monorepo
 					return vim.fn.getcwd()
 				end,
+				settings = {
+					gopls = {
+						["local"] = "github.com/DataDog",
+					},
+				},
 			})
 
 			-- Keymaps
@@ -193,6 +198,20 @@ require("lazy").setup({
 			keymap("n", "<leader>mr", "<cmd>lua vim.lsp.buf.references()<CR>")
 			keymap("n", "<leader>mR", "<cmd>lua vim.lsp.buf.rename()<CR>")
 			keymap("n", "<leader>ms", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
+			vim.keymap.set("n", "<Leader>mi", function()
+				local params = vim.lsp.util.make_range_params()
+				params.context = { only = { "source.organizeImports" } }
+				timeout_ms = 10000
+				local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
+				for cid, res in pairs(result or {}) do
+					for _, r in pairs(res.result or {}) do
+						if r.edit then
+							local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+							vim.lsp.util.apply_workspace_edit(r.edit, enc)
+						end
+					end
+				end
+			end)
 		end,
 	},
 
@@ -247,7 +266,12 @@ require("lazy").setup({
 		},
 	},
 	"junegunn/fzf.vim",
-	"ojroques/nvim-lspfuzzy",
+	{
+		"ojroques/nvim-lspfuzzy",
+		keys = {
+			{ "<leader>mD", ":LspDiagnostics 0<CR>" },
+		},
+	},
 
 	-- ui
 	{
@@ -278,5 +302,9 @@ require("lazy").setup({
 				enable = { "fish", "lua", "terraform" },
 			},
 		},
+	},
+	{
+		"github/copilot.vim",
+		cmd = { "Copilot" },
 	},
 })

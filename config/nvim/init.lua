@@ -217,20 +217,15 @@ require("lazy").setup({
 
 	-- completion
 	{
-		"shougo/deoplete.nvim",
-		build = function()
-			vim.fn["remote#host#UpdateRemotePlugins"]()
-		end,
-		config = function()
-			keymap("i", "<S-Tab>", 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', { expr = true })
-			keymap("i", "<Tab>", 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { expr = true })
-			vim.o.completeopt = "menuone,noinsert,noselect"
-			vim.fn["deoplete#custom#option"]({
-				smart_case = true,
-				max_list = 10,
-			})
-			vim.fn["deoplete#enable"]()
-		end,
+		"saghen/blink.cmp",
+		cond = not vim.g.vscode,
+		opts = {
+			keymap = {
+				preset = "enter",
+				["<Tab>"] = false,
+				["<S-Tab>"] = false,
+			},
+		},
 	},
 	"Raimondi/delimitMate",
 

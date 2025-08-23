@@ -1,0 +1,10 @@
+theme = dark:GruvboxDark,light:GruvboxLight
+font-family = "Iosevka Term"
+{% if name == "work" -%}
+command = /bin/zsh -c /opt/homebrew/bin/fish
+{% else -%}
+command = /opt/homebrew/bin/fish
+{% endif -%}
+window-inherit-working-directory = true
+shell-integration = fish
+keybind = shift+enter=text:\n

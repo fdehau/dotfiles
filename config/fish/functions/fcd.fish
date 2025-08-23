@@ -1,5 +1,5 @@
 function fcd -d "go to a subdirectory using fzf"
-  set -l choice "$(fd -t d | fzf-tmux --tac | string trim)"
+  set -l choice "$(fd -t d | fzf --tac | string trim)"
   if test -n "$choice"
     cd $choice
   end

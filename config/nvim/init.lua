@@ -155,11 +155,11 @@ require("lazy").setup({
 			vim.g["sneak#streak"] = 1
 		end,
 	},
-	"christoomey/vim-tmux-navigator",
 
 	-- lsp
 	{
 		"neovim/nvim-lspconfig",
+		cond = not vim.g.vscode,
 		config = function()
 			-- Global config
 			vim.lsp.handlers["textDocument/publishDiagnostics"] =

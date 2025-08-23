@@ -72,6 +72,23 @@ keymap("v", "<Leader>y", '"+y')
 keymap("n", "<Leader>p", '"+p')
 keymap("n", "<Leader>P", '"+P')
 
+-- lsp
+if vim.g.vscode then
+	keymap("n", "<leader>mn", "<cmd>lua require('vscode').call('editor.action.marker.nextInFiles')<CR>")
+	keymap("n", "<leader>mp", "<cmd>lua require('vscode').call('editor.action.marker.prevInFiles')<CR>")
+else
+	keymap("n", "<leader>mn", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
+	keymap("n", "<leader>mp", "<cmd>lua vim.diagnostic.goto_next()<CR>")
+end
+
+keymap("n", "<leader>ma", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+keymap("n", "<leader>md", "<cmd>lua vim.lsp.buf.definition()<CR>")
+keymap("n", "<leader>mf", "<cmd>lua vim.lsp.buf.format({async = true})<CR>")
+keymap("n", "<leader>mh", "<cmd>lua vim.lsp.buf.hover()<CR>")
+keymap("n", "<leader>mr", "<cmd>lua vim.lsp.buf.references()<CR>")
+keymap("n", "<leader>mR", "<cmd>lua vim.lsp.buf.rename()<CR>")
+keymap("n", "<leader>ms", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
+
 -- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -93,6 +110,7 @@ require("lazy").setup({
 	-- colors
 	{
 		"morhetz/gruvbox",
+		cond = not vim.g.vscode,
 		config = function()
 			function set_colorschme(mode)
 				if mode == "dark" then
@@ -135,7 +153,10 @@ require("lazy").setup({
 	},
 
 	-- edits
-	"tpope/vim-surround",
+	{
+		"tpope/vim-surround",
+		cond = vim.g.vscode,
+	},
 	{
 		"junegunn/vim-easy-align",
 		config = function()
@@ -189,15 +210,6 @@ require("lazy").setup({
 			})
 
 			-- Keymaps
-			keymap("n", "<leader>mn", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
-			keymap("n", "<leader>mp", "<cmd>lua vim.diagnostic.goto_next()<CR>")
-			keymap("n", "<leader>ma", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-			keymap("n", "<leader>md", "<cmd>lua vim.lsp.buf.definition()<CR>")
-			keymap("n", "<leader>mf", "<cmd>lua vim.lsp.buf.format({async = true})<CR>")
-			keymap("n", "<leader>mh", "<cmd>lua vim.lsp.buf.hover()<CR>")
-			keymap("n", "<leader>mr", "<cmd>lua vim.lsp.buf.references()<CR>")
-			keymap("n", "<leader>mR", "<cmd>lua vim.lsp.buf.rename()<CR>")
-			keymap("n", "<leader>ms", "<cmd>lua vim.lsp.buf.document_symbol()<CR>")
 			vim.keymap.set("n", "<Leader>mi", function()
 				local params = vim.lsp.util.make_range_params()
 				params.context = { only = { "source.organizeImports" } }
@@ -227,11 +239,15 @@ require("lazy").setup({
 			},
 		},
 	},
-	"Raimondi/delimitMate",
+	{
+		"Raimondi/delimitMate",
+		cond = not vim.g.vscode,
+	},
 
 	-- navigation
 	{
 		"junegunn/fzf",
+		cond = not vim.g.vscode,
 		build = function()
 			vim.fn["fzf#install"]()
 		end,
@@ -260,9 +276,13 @@ require("lazy").setup({
 			{ "<leader>rg", ":Rg <C-R><C-W><CR>" },
 		},
 	},
-	"junegunn/fzf.vim",
+	{
+		"junegunn/fzf.vim",
+		cond = not vim.g.vscode,
+	},
 	{
 		"ojroques/nvim-lspfuzzy",
+		cond = not vim.g.vscode,
 		keys = {
 			{ "<leader>mD", ":LspDiagnostics 0<CR>" },
 		},
@@ -271,6 +291,7 @@ require("lazy").setup({
 	-- ui
 	{
 		"nvim-lualine/lualine.nvim",
+		cond = not vim.g.vscode,
 		opts = {
 			options = {
 				icons_enabled = false,
@@ -286,20 +307,18 @@ require("lazy").setup({
 	"airblade/vim-gitgutter",
 	{
 		"jreybert/vimagit",
+		cond = not vim.g.vscode,
 		cmd = { "Magit", "MagitOnly" },
 	},
 
 	-- tree sitter
 	{
 		"nvim-treesitter/nvim-treesitter",
+		cond = not vim.g.vscode,
 		opts = {
 			highlight = {
 				enable = { "fish", "lua", "terraform" },
 			},
 		},
-	},
-	{
-		"github/copilot.vim",
-		cmd = { "Copilot" },
 	},
 })

@@ -74,8 +74,8 @@ keymap("n", "<Leader>P", '"+P')
 
 -- lsp
 if vim.g.vscode then
-	keymap("n", "<leader>mn", "<cmd>lua require('vscode').call('editor.action.marker.nextInFiles')<CR>")
-	keymap("n", "<leader>mp", "<cmd>lua require('vscode').call('editor.action.marker.prevInFiles')<CR>")
+	keymap("n", "<leader>mn", "<cmd>lua require('vscode').call('editor.action.marker.next')<CR>")
+	keymap("n", "<leader>mp", "<cmd>lua require('vscode').call('editor.action.marker.prev')<CR>")
 else
 	keymap("n", "<leader>mn", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
 	keymap("n", "<leader>mp", "<cmd>lua vim.diagnostic.goto_next()<CR>")
@@ -232,6 +232,9 @@ require("lazy").setup({
 		"saghen/blink.cmp",
 		cond = not vim.g.vscode,
 		opts = {
+			fuzzy = {
+				implementation = "lua",
+			},
 			keymap = {
 				preset = "enter",
 				["<Tab>"] = false,

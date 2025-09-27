@@ -1,4 +1,4 @@
-theme = dark:GruvboxDark,light:GruvboxLight
+theme = dark:"Gruvbox Dark",light:"Gruvbox Light"
 font-family = "Iosevka Term"
 {% if name == "work" -%}
 command = /bin/zsh -c /opt/homebrew/bin/fish

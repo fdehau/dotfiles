@@ -164,18 +164,10 @@ require("lazy").setup({
 				})
 
 			-- Servers config
-			lsp = require("lspconfig")
-			lsp.rust_analyzer.setup({})
-			lsp.gopls.setup({
-				on_init = function(client)
-					if client.config.flags then
-						-- Send smaller diffs to gopls
-						client.config.flags.allow_incremental_sync = true
-					end
-				end,
-				root_dir = function(fname)
+			vim.lsp.config("gopls", {
+				root_dir = function(bufnr, on_dir)
 					-- Avoid loading the world when working on big monorepo
-					return vim.fn.getcwd()
+					return on_dir(vim.fn.getcwd())
 				end,
 				settings = {
 					gopls = {
@@ -183,6 +175,7 @@ require("lazy").setup({
 					},
 				},
 			})
+			vim.lsp.enable({ "rust_analyzer", "gopls" })
 
 			-- Keymaps
 			vim.keymap.set("n", "<Leader>mi", function()

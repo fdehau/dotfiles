@@ -152,31 +152,6 @@ require("lazy").setup({
 		end,
 	},
 
-	-- edits
-	{
-		"tpope/vim-surround",
-		cond = vim.g.vscode,
-	},
-	{
-		"junegunn/vim-easy-align",
-		config = function()
-			-- start interactive EasyAlign in visual mode (e.g. vipga)
-			keymap("x", "ga", "<Plug>(EasyAlign)", { noremap = false })
-			-- start interactive EasyAlign for a motion/text object (e.g. gaip)
-			keymap("v", "ga", "<Plug>(EasyAlign)", { noremap = false })
-		end,
-	},
-	"tpope/vim-commentary",
-	"terryma/vim-expand-region",
-
-	-- moving around
-	{
-		"justinmk/vim-sneak",
-		config = function()
-			vim.g["sneak#streak"] = 1
-		end,
-	},
-
 	-- lsp
 	{
 		"neovim/nvim-lspconfig",
@@ -226,25 +201,29 @@ require("lazy").setup({
 			end)
 		end,
 	},
+	{
+		"nvim-mini/mini.nvim",
+		version = "*",
+		config = function()
+			require("mini.comment").setup()
+			require("mini.move").setup()
+			require("mini.align").setup()
+			require("mini.trailspace").setup()
 
-	-- completion
-	{
-		"saghen/blink.cmp",
-		cond = not vim.g.vscode,
-		opts = {
-			fuzzy = {
-				implementation = "lua",
-			},
-			keymap = {
-				preset = "enter",
-				["<Tab>"] = false,
-				["<S-Tab>"] = false,
-			},
-		},
-	},
-	{
-		"Raimondi/delimitMate",
-		cond = not vim.g.vscode,
+			if vim.g.vscode then
+				return
+			end
+
+			require("mini.pairs").setup()
+			require("mini.completion").setup()
+			require("mini.git").setup()
+			require("mini.diff").setup()
+			local map_multistep = require("mini.keymap").map_multistep
+			map_multistep("i", "<Tab>", { "pmenu_next" })
+			map_multistep("i", "<S-Tab>", { "pmenu_prev" })
+			map_multistep("i", "<CR>", { "pmenu_accept", "minipairs_cr" })
+			map_multistep("i", "<BS>", { "minipairs_bs" })
+		end,
 	},
 
 	-- navigation
@@ -283,13 +262,6 @@ require("lazy").setup({
 		"junegunn/fzf.vim",
 		cond = not vim.g.vscode,
 	},
-	{
-		"ojroques/nvim-lspfuzzy",
-		cond = not vim.g.vscode,
-		keys = {
-			{ "<leader>mD", ":LspDiagnostics 0<CR>" },
-		},
-	},
 
 	-- ui
 	{
@@ -302,12 +274,21 @@ require("lazy").setup({
 			tabline = {
 				lualine_a = { "buffers" },
 			},
+			sections = {
+				lualine_a = { "mode" },
+				lualine_b = { "branch", "diff", "diagnostics" },
+				lualine_c = { "filename" },
+				lualine_x = { "lsp_status", "filetype" },
+				lualine_y = { "progress" },
+				lualine_z = { "location" },
+			},
 		},
 	},
-	"ntpeters/vim-better-whitespace",
+
+	-- selection
+	"terryma/vim-expand-region",
 
 	-- git
-	"airblade/vim-gitgutter",
 	{
 		"jreybert/vimagit",
 		cond = not vim.g.vscode,
